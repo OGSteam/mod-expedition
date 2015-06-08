@@ -7,10 +7,6 @@ if (!defined('IN_SPYOGAME')) {
 
 // We'll need that
 global $db, $table_prefix;
-define("TABLE_EXPEDITION_NUL", $table_prefix."eXpedition_nul"); 		// 0 - Nul
-define("TABLE_EXPEDITION_RESS", $table_prefix."eXpedition_ress"); 		// 1 - Ressources
-define("TABLE_EXPEDITION_FLEET", $table_prefix."eXpedition_fleet"); 	// 2 - Vaisseaux
-define("TABLE_EXPEDITION_MERCH", $table_prefix."eXpedition_merch"); 	// 3 - Marchand
 
 $mod_folder = 'expedition';
 $mod_name   = 'eXpedition';
@@ -25,7 +21,7 @@ if($version == "1.1.0" || $version == "1.0.2"){
   $db->sql_query("DROP TABLE IF EXISTS ".TABLE_EXPEDITION_FLEET);
   $db->sql_query("DROP TABLE IF EXISTS ".TABLE_EXPEDITION_MERCH);
 
-  $query = "RENAME TABLE 
+  $query = "RENAME TABLE
    ".$table_prefix."expedition_type_0 TO ".$table_prefix."expedition_nul,
    ".$table_prefix."expedition_type_1 TO ".$table_prefix."eXpedition_ress,
    ".$table_prefix."expedition_type_2 TO ".$table_prefix."eXpedition_fleet,
