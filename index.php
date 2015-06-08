@@ -1,9 +1,10 @@
 <?php
- 
+
 // Hack Protection
 if (!defined('IN_SPYOGAME')) {
     exit('Hacking Attempt!');
 }
+
 
 // We'll need that
 global $db, $table_prefix;
@@ -46,7 +47,7 @@ if(isset($pub_subaction)){
 			include ("statistiques.php");
 			break;
 	}
-	
+
 }
 else{
 	include("statistiques.php");

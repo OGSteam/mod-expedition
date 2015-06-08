@@ -2,11 +2,11 @@
 
 if (!defined('IN_SPYOGAME')) die("Hacking attempt");
 
-// recupérer le nom de quelqu'un
+// recupï¿½rer le nom de quelqu'un
 function getuserNameById($uid)
 {
   global $db, $eXpDebug;
-  $query = 
+  $query =
         "SELECT user_name
         FROM ".TABLE_USER."
         WHERE user_id = $uid ";
@@ -18,7 +18,7 @@ function getuserNameById($uid)
 
 /**
  *
- *   Retourne le contenu de la base pour la période donnée.
+ *   Retourne le contenu de la base pour la pï¿½riode donnï¿½e.
  *
  **/
 function readDB($uid=0, $dateB=0, $dateE=0)
@@ -26,20 +26,20 @@ function readDB($uid=0, $dateB=0, $dateE=0)
     global $db;
     if ($uid == 0)
       $uid = "[0-9]*";
-        
-    // Nombre d'expéditions par type
+
+    // Nombre d'expï¿½ditions par type
     $query = "SELECT count(*) as nb, type
         FROM ".TABLE_EXPEDITION."
         WHERE user_id REGEXP '$uid'
         AND date BETWEEN $dateB AND $dateE
         GROUP BY TYPE
         ORDER BY TYPE";
-    
+
     $db->sql_query($query);
-    
+
     // Init to avoid PHPNotice
     $expeditionData['nbNul'] = $expeditionData['nbFleet'] = $expeditionData['nbRess'] = $expeditionData['nbMerch'] = 0;
-    
+
     while ( $nb = $db->sql_fetch_assoc(0) ){
         switch ($nb['type']){
             case 0:
@@ -58,8 +58,8 @@ function readDB($uid=0, $dateB=0, $dateE=0)
     }
     $expeditionData['nbTotal'] = $expeditionData['nbNul'] + $expeditionData['nbRess'] + $expeditionData['nbFleet'] + $expeditionData['nbMerch'];
 
-    
-    // Nombre de ressources récoltées
+
+    // Nombre de ressources rï¿½coltï¿½es
     $query = "SELECT sum(metal), sum(cristal), sum(deuterium), sum(antimatiere)
              FROM ".TABLE_EXPEDITION." AS exp,
              ".TABLE_EXPEDITION_RESS." AS expRess
@@ -67,11 +67,11 @@ function readDB($uid=0, $dateB=0, $dateE=0)
              AND user_id REGEXP '$uid'
              AND date BETWEEN $dateB AND $dateE";
     $result = $db->sql_query($query);
-    
+
     list($expeditionData['sumMetal'], $expeditionData['sumCristal'], $expeditionData['sumDeuterium'], $expeditionData['sumAntimatiere']) = $db->sql_fetch_row($result);
 
 
-    // Nombre de vaisseaux ramenés
+    // Nombre de vaisseaux ramenï¿½s
     $query =  "SELECT sum(pt), sum(gt), sum(cle), sum(clo), sum(cr), sum(vb), sum(vc), sum(rec), sum(se), sum(bmb), sum(dst), sum(tra)
 	          FROM ".TABLE_EXPEDITION." AS exp, ".TABLE_EXPEDITION_FLEET." AS expFleet
               WHERE exp.id = expFleet.id_eXpedition
@@ -93,7 +93,7 @@ function readDB($uid=0, $dateB=0, $dateE=0)
 	$expeditionData['sumUdst']	= $expeditionData['sumdst']*125;
 	$expeditionData['sumUtra'] 	= $expeditionData['sumtra']*85;
 
-  // Nombre de marchands Kidnappés
+  // Nombre de marchands Kidnappï¿½s
   $query = "SELECT count(*)
            FROM ".TABLE_EXPEDITION." AS exp, ".TABLE_EXPEDITION_MERCH." AS expMerch
            WHERE exp.id = expMerch.id_eXpedition
@@ -102,7 +102,7 @@ function readDB($uid=0, $dateB=0, $dateE=0)
 
 	$result = $db->sql_query($query);
     list($expeditionData['sumM']) = $db->sql_fetch_row($result);
-       
+
 	// Some Stats
   if($expeditionData['nbTotal'] != 0 ){
   	$expeditionData['prcRess'] = $expeditionData['nbRess'] * 100 / $expeditionData['nbTotal'];
@@ -116,7 +116,7 @@ function readDB($uid=0, $dateB=0, $dateE=0)
 
 	$expeditionData['totRess'] = $expeditionData['sumMetal'] + $expeditionData['sumCristal'] + $expeditionData['sumDeuterium'];
 	$expeditionData['totPtRess'] = $expeditionData['totRess'] / 1000;
-	$expeditionData['totFleet'] = $expeditionData['sumpt'] + $expeditionData['sumgt'] + $expeditionData['sumcle'] 
+	$expeditionData['totFleet'] = $expeditionData['sumpt'] + $expeditionData['sumgt'] + $expeditionData['sumcle']
 								+ $expeditionData['sumclo'] + $expeditionData['sumcr'] + $expeditionData['sumvb'] +
 								$expeditionData['sumvc'] + $expeditionData['sumrec'] + $expeditionData['sumse'] +
 								$expeditionData['sumbmb'] + $expeditionData['sumdst'] + $expeditionData['sumtra'];
@@ -124,7 +124,7 @@ function readDB($uid=0, $dateB=0, $dateE=0)
 								+ $expeditionData['sumclo']*10 + $expeditionData['sumcr']*29 + $expeditionData['sumvb']*60 +
 								$expeditionData['sumvc']*40 + $expeditionData['sumrec']*18 + $expeditionData['sumse'] +
 								$expeditionData['sumbmb']*90 + $expeditionData['sumdst']*125 + $expeditionData['sumtra']*85;
-	
+
 	if(!$expeditionData['nbTotal'])
 	{
 		$expeditionData['moyRess'] = 0;
@@ -155,7 +155,7 @@ function create_pie_expedition($_data, $_legend, $_title, $conteneur){
     global $server_config;
     $retour = "";
 
-    // test erreurs donnés
+    // test erreurs donnï¿½s
     if (!check_var($_data, "Special", "#^[0-9(_x_)]+$#") || !check_var($_legend,
         "Text") || !check_var($_title, "Text") || !check_var($conteneur, "Text")) {
         $retour .= affiche_error($conteneur, 'erreur 1');
@@ -173,7 +173,7 @@ function create_pie_expedition($_data, $_legend, $_title, $conteneur){
         return $retour;
     }
 
-    // préparation des données
+    // prï¿½paration des donnï¿½es
     $i = 0;
     $temp = array();
     while ($i < count($data)) {
@@ -183,7 +183,7 @@ function create_pie_expedition($_data, $_legend, $_title, $conteneur){
     // format hightchart
     $format_data = implode(" , ", $temp);
 
-    // création du script
+    // crï¿½ation du script
     $retour .= "<script type=\"text/javascript\">
   var " . $conteneur . ";
   	$(document).ready(function() {
@@ -230,13 +230,13 @@ function create_pie_expedition($_data, $_legend, $_title, $conteneur){
   				}
               },
               showInLegend: false,
-  			size: 175			
+  			size: 175
            }
         },
          series: [{
            type: 'pie',
            name: 'Browser share',
-           
+
            data: [
               " . $format_data . "
            ]
@@ -255,7 +255,7 @@ function readDBHOF(){
   global $db;
 
   // HOF CUMUL POINTS GAGNES
-  $query = "SELECT (totalRess.totalRess + totalFleet.totalUnits) as total, exp.user_id 
+  $query = "SELECT (totalRess.totalRess + totalFleet.totalUnits) as total, exp.user_id
       FROM ".TABLE_EXPEDITION." as exp
       JOIN (SELECT user_id, sum( (metal + cristal + deuterium) / 1000 ) as totalRess
       FROM ".TABLE_EXPEDITION." as exp1
@@ -269,12 +269,12 @@ function readDBHOF(){
       GROUP BY exp.user_id
       ORDER BY total DESC
       LIMIT 10";
-  
+
   $result = $db->sql_query($query);
   for($i = 0 ; $i < 10 ; $i ++)
   {
     if($row = $db->sql_fetch_row($result))
-    { 
+    {
         $cumulPoints[$i]['cumul'] = $row[0];
         $cumulPoints[$i]['pseudo'] = getuserNameById($row[1]);
     }
@@ -289,9 +289,9 @@ function readDBHOF(){
   $query =  "SELECT sum(metal) as total, user_id
      FROM ".TABLE_EXPEDITION." AS exp
      INNER JOIN ".TABLE_EXPEDITION_RESS." AS ress
-     WHERE exp.id = ress.id_eXpedition 
+     WHERE exp.id = ress.id_eXpedition
      GROUP BY user_id
-     ORDER BY total DESC";   
+     ORDER BY total DESC";
 
   $result = $db->sql_query($query);
     for($i = 0 ; $i < 10 ; $i ++)
@@ -312,9 +312,9 @@ function readDBHOF(){
   $query =  "SELECT sum(cristal) as total, user_id
      FROM ".TABLE_EXPEDITION." AS exp
      INNER JOIN ".TABLE_EXPEDITION_RESS." AS ress
-     WHERE exp.id = ress.id_eXpedition 
+     WHERE exp.id = ress.id_eXpedition
      GROUP BY user_id
-     ORDER BY total DESC";   
+     ORDER BY total DESC";
   $result = $db->sql_query($query);
     for($i = 0 ; $i < 10 ; $i ++)
     {
@@ -334,9 +334,9 @@ function readDBHOF(){
   $query =  "SELECT sum(deuterium) as total, user_id
      FROM ".TABLE_EXPEDITION." AS exp
      INNER JOIN ".TABLE_EXPEDITION_RESS." AS ress
-     WHERE exp.id = ress.id_eXpedition 
+     WHERE exp.id = ress.id_eXpedition
      GROUP BY user_id
-     ORDER BY total DESC";   
+     ORDER BY total DESC";
      $result = $db->sql_query($query);
     for($i = 0 ; $i < 10 ; $i ++)
     {
@@ -356,9 +356,9 @@ function readDBHOF(){
   $query =  "SELECT sum(antimatiere) as total, user_id
      FROM ".TABLE_EXPEDITION." AS exp
      INNER JOIN ".TABLE_EXPEDITION_RESS." AS ress
-     WHERE exp.id = ress.id_eXpedition 
+     WHERE exp.id = ress.id_eXpedition
      GROUP BY user_id
-     ORDER BY total DESC";   
+     ORDER BY total DESC";
      $result = $db->sql_query($query);
     for($i = 0 ; $i < 10 ; $i ++)
     {
@@ -379,8 +379,8 @@ function readDBHOF(){
   $query =  "SELECT metal as total, user_id
       FROM ".TABLE_EXPEDITION." AS exp
       INNER JOIN ".TABLE_EXPEDITION_RESS." AS ress
-      WHERE exp.id = ress.id_eXpedition 
-      ORDER BY total DESC";   
+      WHERE exp.id = ress.id_eXpedition
+      ORDER BY total DESC";
 
   $result = $db->sql_query($query);
   for($i = 0 ; $i < 10 ; $i ++)
@@ -401,8 +401,8 @@ function readDBHOF(){
   $query =  "SELECT cristal as total, user_id
       FROM ".TABLE_EXPEDITION." AS exp
       INNER JOIN ".TABLE_EXPEDITION_RESS." AS ress
-      WHERE exp.id = ress.id_eXpedition 
-      ORDER BY total DESC";   
+      WHERE exp.id = ress.id_eXpedition
+      ORDER BY total DESC";
 
   $result = $db->sql_query($query);
   for($i = 0 ; $i < 10 ; $i ++)
@@ -423,8 +423,8 @@ function readDBHOF(){
   $query =  "SELECT deuterium as total, user_id
       FROM ".TABLE_EXPEDITION." AS exp
       INNER JOIN ".TABLE_EXPEDITION_RESS." AS ress
-      WHERE exp.id = ress.id_eXpedition 
-      ORDER BY total DESC";   
+      WHERE exp.id = ress.id_eXpedition
+      ORDER BY total DESC";
 
   $result = $db->sql_query($query);
   for($i = 0 ; $i < 10 ; $i ++)
@@ -445,8 +445,8 @@ function readDBHOF(){
   $query =  "SELECT antimatiere as total, user_id
       FROM ".TABLE_EXPEDITION." AS exp
       INNER JOIN ".TABLE_EXPEDITION_RESS." AS ress
-      WHERE exp.id = ress.id_eXpedition 
-      ORDER BY total DESC";   
+      WHERE exp.id = ress.id_eXpedition
+      ORDER BY total DESC";
 
   $result = $db->sql_query($query);
   for($i = 0 ; $i < 10 ; $i ++)
@@ -469,7 +469,7 @@ function readDBHOF(){
       INNER JOIN ".TABLE_EXPEDITION_FLEET." AS fleet
       WHERE exp.id = fleet.id_eXpedition
       GROUP BY user_id
-      ORDER BY total DESC";  
+      ORDER BY total DESC";
 
   $result = $db->sql_query($query);
 
@@ -492,7 +492,7 @@ function readDBHOF(){
       FROM ".TABLE_EXPEDITION." AS exp
       INNER JOIN ".TABLE_EXPEDITION_FLEET." AS fleet
       WHERE exp.id = fleet.id_eXpedition
-      ORDER BY total DESC";  
+      ORDER BY total DESC";
 
   $result = $db->sql_query($query);
 
@@ -515,11 +515,11 @@ function readDBHOF(){
   $hofArray['ress'] = $hofExpedition;
   $hofArray['cumulFleet'] = $cumulFleet;
   $hofArray['fleet'] = $hofFleet;
-  
-  return $hofArray;  
+
+  return $hofArray;
 }
 
-// lecture des infos de la base 
+// lecture des infos de la base
 function readDBuserDet($uid = 0, $datedeb = 0, $datefin = 0)
 {
   global $db, $eXpDebug;
@@ -527,8 +527,8 @@ function readDBuserDet($uid = 0, $datedeb = 0, $datefin = 0)
   $TR1 = '';
   $TR2 = '';
   $TR3 = '';
-  // On recupere le tableau des expeditions ratées :
-  $query = 
+  // On recupere le tableau des expeditions ratï¿½es :
+  $query =
         "SELECT date, pos_galaxie, pos_sys, user_id, e.id
         FROM ".TABLE_EXPEDITION." AS e, ".TABLE_EXPEDITION_NUL." AS t0
         WHERE e.id = t0.id_eXpedition ";
@@ -537,7 +537,7 @@ if($datefin != 0) $query .=   "and date between $datedeb and $datefin ";
    $query .=    "order by date DESC, user_id ASC";
   if($eXpDebug) echo("<br /> Db : $query <br />");
           $result = $db->sql_query($query);
-  while ($row = $db->sql_fetch_row($result)) 
+  while ($row = $db->sql_fetch_row($result))
   {
       $TR0[] = $row;
   }
@@ -546,7 +546,7 @@ if($datefin != 0) $query .=   "and date between $datedeb and $datefin ";
 
   // On recupere le tableau des expeditions ressources :
 
-  $query = 
+  $query =
         "SELECT date, pos_galaxie, pos_sys, metal, cristal, deuterium, antimatiere, user_id, e.id
         FROM ".TABLE_EXPEDITION." AS e, ".TABLE_EXPEDITION_RESS." AS t1
         WHERE e.id = t1.id_eXpedition ";
@@ -556,7 +556,7 @@ if($datefin != 0) $query .=   "and date between $datedeb and $datefin ";
 
   if($eXpDebug) echo("<br /> Db : $query <br />");
           $result = $db->sql_query($query);
-  while ($row = $db->sql_fetch_row($result)) 
+  while ($row = $db->sql_fetch_row($result))
   {
       $TR1[] = $row;
   }
@@ -565,7 +565,7 @@ if($datefin != 0) $query .=   "and date between $datedeb and $datefin ";
 
   // On recupere le tableau des expeditions vaisseau :
 
-  $query = 
+  $query =
         "SELECT date, pos_galaxie, pos_sys, pt, gt, cle, clo, cr, vb, vc, rec, se, bmb, dst, tra, units, user_id, e.id
         FROM ".TABLE_EXPEDITION." AS e, ".TABLE_EXPEDITION_FLEET." AS t2
         WHERE e.id = t2.id_eXpedition ";
@@ -575,7 +575,7 @@ if($datefin != 0) $query .=   "and date between $datedeb and $datefin ";
 
   if($eXpDebug) echo("<br /> Db : $query <br />");
           $result = $db->sql_query($query);
-  while ($row = $db->sql_fetch_row($result)) 
+  while ($row = $db->sql_fetch_row($result))
   {
       $TR2[] = $row;
   }
@@ -584,7 +584,7 @@ if($datefin != 0) $query .=   "and date between $datedeb and $datefin ";
   // On recupere le tableau des expeditions marchand :
 
 
-  $query = 
+  $query =
         "SELECT date, pos_galaxie, pos_sys, user_id, e.id
         FROM ".TABLE_EXPEDITION." AS e, ".TABLE_EXPEDITION_MERCH." AS t3
         WHERE e.id = t3.id_eXpedition ";
@@ -594,7 +594,7 @@ if($datefin != 0) $query .=   "and date between $datedeb and $datefin ";
 
   if($eXpDebug) echo("<br /> Db : $query <br />");
           $result = $db->sql_query($query);
-  while ($row = $db->sql_fetch_row($result)) 
+  while ($row = $db->sql_fetch_row($result))
   {
       $TR3[] = $row;
   }
