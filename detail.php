@@ -108,7 +108,7 @@ $data = formatUserData($data);
             <tr class="total-line">
                 <?php if ($typeUser == 0) { ?>
                     <th class="medium-td"></th>
-                    <th style="width: 20px;"></th>
+                    <td style="width: 20px;"></td>
                 <?php } ?>
                 <th align=center style="width: 200px;"><?php echo $key ?></th>
                 <th align=center style="width: 75px;"></th>
@@ -187,7 +187,7 @@ $data = formatUserData($data);
             <tr class="total-line">
                 <?php if ($typeUser == 0) { ?>
                     <th class="medium-td"></th>
-                    <th style="width: 20px;"></th>
+                    <td style="width: 20px;"></td>
                 <?php } ?>
                 <th align=center style="width: 200px;"><?php echo $date ?></th>
                 <th align=center style="width: 75px;"></th>
@@ -317,7 +317,7 @@ $data = formatUserData($data);
             <tr class="total-line">
                 <?php if ($typeUser == 0) { ?>
                     <th style="medium-td"></th>
-                    <th style="width: 20px;"></th>
+                    <td style="width: 20px;"></td>
                 <?php } ?>
                 <th align=center style="width: 200px;"><?php echo $date ?></th>
                 <th align=center style="width: 75px;"><?php echo (string)$resDate['Total']['count'] ?></th>
@@ -392,7 +392,7 @@ $data = formatUserData($data);
             <tr class="total-line">
                 <?php if ($typeUser == 0) { ?>
                     <th class="medium-td"></th>
-                    <th style="width: 20px;"></th>
+                    <td style="width: 20px;"></td>
                 <?php } ?>
                 <th align=center style="width: 200px;"><?php echo $date ?></th>
                 <th align=center style="width: 75px;"></th>
