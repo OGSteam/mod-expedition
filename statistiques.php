@@ -80,10 +80,20 @@ $template = <<<HERESTAT
 			<td class="c" style="width: 100px;"><big>$expeditionDataMonth[nbMerch] ($expeditionDataMonth[prcMerch] %)</big></td>
 		</tr>
 		<tr>
+			<td class="c" style="width: 500px;"><big>Nombre d'eXpeditions ayant ramené un objet :</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataTotal[nbItems] ($expeditionDataTotal[prcItems] %)</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataMonth[nbItems] ($expeditionDataMonth[prcItems] %)</big></td>
+		</tr>				
+		<tr>
 			<td class="c" style="width: 500px;"><big>Nombre d'eXpeditions n'ayant rien ramené :</big></td>
 			<td class="c" style="width: 100px;"><big>$expeditionDataTotal[nbNul] ($expeditionDataTotal[prcNul] %)</big></td>
 			<td class="c" style="width: 100px;"><big>$expeditionDataMonth[nbNul] ($expeditionDataMonth[prcNul] %)</big></td>
 		</tr>
+		<tr>
+			<td class="c" style="width: 500px;"><big>Nombre d'eXpeditions ayant subit une attaque :</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataTotal[nbAttacks] ($expeditionDataTotal[prcnbAttacks] %)</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataMonth[nbAttacks] ($expeditionDataMonth[prcnbAttacks] %)</big></td>
+		</tr>		
 	</tbody>
 </table>
 <br />
@@ -308,6 +318,302 @@ $template = <<<HERESTAT
 			<td style="width: 50px;"></td>
 			<th style="width: 225px;">Total</th>
 			<th style="width: 125px;">$expeditionDataMonth[sumM]</th>
+		</tr>
+	</tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<span style="font-weight: bold;">
+	<big>Total des objets ramenés :</big>
+</span>
+<br />
+<br />
+<br />
+<table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
+	<tbody>
+		<tr>
+			<td class="c" style="width: 225px; font-weight: bold;">En tout depuis le $firstExp :</td>
+			<td class="c" style="width: 125px;"></td>
+			<td style="width: 50px;"></td>
+			<td class="c" style="width: 225px; font-weight: bold;">Pour le mois $currentMonth :</td>
+			<td class="c" style="width: 125px;"></td>
+		</tr>	
+		<tr>
+			<th style="width: 225px;">Booster de métal en bronze</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemMetalbronze]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Booster de métal en bronze</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemMetalbronze]</th>
+		</tr>
+        <tr>
+			<th style="width: 225px;">Booster de métal en argent</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemMetalargent]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Booster de métal en argent</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemMetalargent]</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Booster de métal en or</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemMetalor]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Booster de métal en or</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemMetalor]</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Booster de cristal en bronze</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemCristalbronze]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Booster de cristal en bronze</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemCristalbronze]</th>
+		</tr>
+        <tr>
+			<th style="width: 225px;">Booster de cristal en argent</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemCristalargent]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Booster de cristal en argent</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemCristalargent]</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Booster de cristal en or</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemCristalor]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Booster de cristal en or</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemCristalor]</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Booster de deutérium en bronze</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemDeutbronze]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Booster de deutérium en bronze</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemDeutbronze]</th>
+		</tr>
+        <tr>
+			<th style="width: 225px;">Booster de deutérium en argent</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemDeutargent]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Booster de deutérium en argent</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemDeutargent]</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Booster de deutérium en or</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemDeutor]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Booster de deutérium en or</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemDeutor]</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">KRAKEN en bronze</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemKrakenbronze]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">KRAKEN en bronze</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemKrakenbronze]</th>
+		</tr>
+        <tr>
+			<th style="width: 225px;">KRAKEN en argent</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemKrakenargent]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">KRAKEN en argent</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemKrakenargent]</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">KRAKEN en or</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemKrakenor]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">KRAKEN en or</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemKrakenor]</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">DETROID en bronze</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemDetroidbronze]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">DETROID en bronze</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemDetroidbronze]</th>
+		</tr>
+        <tr>
+			<th style="width: 225px;">DETROID en argent</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemDetroidargent]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">DETROID en argent</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemDetroidargent]</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">DETROID en or</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemDetroidor]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">DETROID en or</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemDetroidor]</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">NEWTRON en bronze</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemNewtronbronze]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">NEWTRON en bronze</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemNewtronbronze]</th>
+		</tr>
+        <tr>
+			<th style="width: 225px;">NEWTRON en argent</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemNewtronargent]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">NEWTRON en argent</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemNewtronargent]</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">NEWTRON en or</th>
+			<th style="width: 125px;">$expeditionDataTotal[itemNewtronor]</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">NEWTRON en or</th>
+			<th style="width: 125px;">$expeditionDataMonth[itemNewtronor]</th>
+		</tr>
+		<tr>
+			<td class="c" style="width: 225px; font-weight: bold;">Total :</td>
+			<td class="c" style="width: 125px;">$expeditionDataTotal[totItems]</td>
+			<td style="width: 50px;"></td>
+			<td class="c" style="width: 225px; font-weight: bold;">Total :</td>
+			<td class="c" style="width: 125px;">$expeditionDataMonth[totItems]</td>
+		</tr>														
+	</tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<span style="font-weight: bold;">
+	<big>Total des vaisseaux perdus :</big>
+</span>
+<br />
+<br />
+<br />
+<table style="text-align: left;" border="0" cellpadding="2" cellspacing="2">
+	<tbody>
+		<tr>
+			<td class="c" style="width: 225px; font-weight: bold;">En tout depuis le $firstExp :</td>
+			<td class="c" style="width: 125px;"></td>
+			<td style="width: 50px;"></td>
+			<td class="c" style="width: 225px; font-weight: bold;">Pour le mois $currentMonth :</td>
+			<td class="c" style="width: 125px;"></td>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Petit Transporteur</th>
+			<th style="width: 125px;">$expeditionDataTotal[sumptLost] ($expeditionDataTotal[sumUptLost] pts)</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Petit Transporteur</th>
+			<th style="width: 125px;">$expeditionDataMonth[sumptLost] ($expeditionDataMonth[sumUptLost] pts)</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Grand Transporteur</th>
+			<th style="width: 125px;">$expeditionDataTotal[sumgtLost] ($expeditionDataTotal[sumUgtLost] pts)</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Grand Transporteur</th>
+			<th style="width: 125px;">$expeditionDataMonth[sumgtLost] ($expeditionDataMonth[sumUgtLost] pts)</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Chasseur Léger</th>
+			<th style="width: 125px;">$expeditionDataTotal[sumcleLost] ($expeditionDataTotal[sumUcleLost] pts)</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Chasseur Léger</th>
+			<th style="width: 125px;">$expeditionDataMonth[sumcleLost] ($expeditionDataMonth[sumUcleLost] pts)</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Chasseur Lourd</th>
+			<th style="width: 125px;">$expeditionDataTotal[sumcloLost] ($expeditionDataTotal[sumUcloLost] pts)</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Chasseur Lourd</th>
+			<th style="width: 125px;">$expeditionDataMonth[sumcloLost] ($expeditionDataMonth[sumUcloLost] pts)</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Croiseur</th>
+			<th style="width: 125px;">$expeditionDataTotal[sumcrLost] ($expeditionDataTotal[sumUcrLost] pts)</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Croiseur</th>
+			<th style="width: 125px;">$expeditionDataMonth[sumcrLost] ($expeditionDataMonth[sumUcrLost] pts)</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Vaisseau de Bataille</th>
+			<th style="width: 125px;">$expeditionDataTotal[sumvbLost] ($expeditionDataTotal[sumUvbLost] pts)</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Vaisseau de Bataille</th>
+			<th style="width: 125px;">$expeditionDataMonth[sumvbLost] ($expeditionDataMonth[sumUvbLost] pts)</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Vaisseau de Colonisation</th>
+			<th style="width: 125px;">$expeditionDataTotal[sumvcLost] ($expeditionDataTotal[sumUvcLost] pts)</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Vaisseau de Colonisation</th>
+			<th style="width: 125px;">$expeditionDataMonth[sumvcLost] ($expeditionDataMonth[sumUvcLost] pts)</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Recycleur</th>
+			<th style="width: 125px;">$expeditionDataTotal[sumrecLost] ($expeditionDataTotal[sumUrecLost] pts)</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Recycleur</th>
+			<th style="width: 125px;">$expeditionDataMonth[sumrecLost] ($expeditionDataMonth[sumUrecLost] pts)</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Sonde d'Espionnage</th>
+			<th style="width: 125px;">$expeditionDataTotal[sumseLost] ($expeditionDataTotal[sumUseLost] pts)</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Sonde d'Espionnage</th>
+			<th style="width: 125px;">$expeditionDataMonth[sumseLost] ($expeditionDataMonth[sumUseLost] pts)</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Bombardier</th>
+			<th style="width: 125px;">$expeditionDataTotal[sumbmbLost] ($expeditionDataTotal[sumUbmbLost] pts)</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Bombardier</th>
+			<th style="width: 125px;">$expeditionDataMonth[sumbmbLost] ($expeditionDataMonth[sumUbmbLost] pts)</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Destructeur</th>
+			<th style="width: 125px;">$expeditionDataTotal[sumdstLost] ($expeditionDataTotal[sumUdstLost] pts)</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Destructeur</th>
+			<th style="width: 125px;">$expeditionDataMonth[sumdstLost] ($expeditionDataMonth[sumUdstLost] pts)</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">EDLM</th>
+			<th style="width: 125px;">$expeditionDataTotal[sumedlmLost] ($expeditionDataTotal[sumUedlmLost] pts)</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">EDLM</th>
+			<th style="width: 125px;">$expeditionDataMonth[sumedlmLost] ($expeditionDataMonth[sumUedlmLost] pts)</th>
+		</tr>		
+		<tr>
+			<th style="width: 225px;">Traqueur</th>
+			<th style="width: 125px;">$expeditionDataTotal[sumtraLost] ($expeditionDataTotal[sumUtraLost] pts)</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Traqueur</th>
+			<th style="width: 125px;">$expeditionDataMonth[sumtraLost] ($expeditionDataMonth[sumUtraLost] pts)</th>
+		</tr>
+		<tr>
+			<td class="c" style="width: 225px; font-weight: bold;">Moyenne de vaisseaux par eXp:</td>
+			<td class="c" style="width: 125px;">$expeditionDataTotal[moyFleetLost]</td>
+			<td style="width: 50px;"></td>
+			<td class="c" style="width: 225px; font-weight: bold;">Moyenne de vaisseaux par eXp:</td>
+			<td class="c" style="width: 125px;">$expeditionDataMonth[moyFleetLost]</td>
+		</tr>
+		<tr>
+			<td class="c" style="width: 225px; font-weight: bold;">Moyenne de points par eXp:</td>
+			<td class="c" style="width: 125px;">$expeditionDataTotal[moyUFleetLost]</td>
+			<td style="width: 50px;"></td>
+			<td class="c" style="width: 225px; font-weight: bold;">Moyenne de points par eXp :</td>
+			<td class="c" style="width: 125px;">$expeditionDataMonth[moyUFleetLost]</td>
+		</tr>		
+		<tr>
+			<td class="c" style="width: 225px; font-weight: bold;">Total de vaisseaux perdus :</td>
+			<td class="c" style="width: 125px;">$expeditionDataTotal[totFleetLost]</td>
+			<td style="width: 50px;"></td>
+			<td class="c" style="width: 225px; font-weight: bold;">Total de vaisseaux Lost  :</td>
+			<td class="c" style="width: 125px;">$expeditionDataMonth[totFleetLost]</td>
+		</tr>		<tr>
+			<td class="c" style="width: 225px; font-weight: bold;">Total en points :</td>
+			<td class="c" style="width: 125px;">$expeditionDataTotal[totUFleetLost]</td>
+			<td style="width: 50px;"></td>
+			<td class="c" style="width: 225px; font-weight: bold;">Total en points :</td>
+			<td class="c" style="width: 125px;">$expeditionDataMonth[totUFleetLost]</td>
 		</tr>
 	</tbody>
 </table>

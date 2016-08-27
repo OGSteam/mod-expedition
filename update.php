@@ -8,6 +8,9 @@ if (!defined('IN_SPYOGAME')) {
 // We'll need that
 global $db, $table_prefix;
 
+define("TABLE_EXPEDITION_ATTACKS", $table_prefix."eXpedition_attacks"); // 4 - Attaques
+define("TABLE_XTENSE_CALLBACKS", $table_prefix."xtense_callbacks");		// xtense Callbacks
+
 $mod_folder = 'expedition';
 $mod_name   = 'eXpedition';
 
@@ -31,6 +34,39 @@ if($version == "1.1.0" || $version == "1.0.2"){
   $query = "DROP TABLE ".$table_prefix."expedition_opts";
   $db->sql_query($query);
 }
+
+$query = "CREATE TABLE IF NOT EXISTS ".TABLE_EXPEDITION_ATTACKS." ("
+        . " id INT NOT NULL AUTO_INCREMENT, "
+        . " id_eXpedition INT NOT NULL, "
+        . " pt INT NOT NULL, "
+        . " gt INT NOT NULL, "
+        . " cle INT NOT NULL, "
+        . " clo INT NOT NULL, "
+        . " cr INT NOT NULL, "
+        . " vb INT NOT NULL, "
+        . " vc INT NOT NULL, "
+        . " rec INT NOT NULL, "
+        . " se INT NOT NULL, "
+        . " bmb INT NOT NULL, "
+        . " dst INT NOT NULL, "
+        . " edlm INT NOT NULL,"
+        . " tra INT NOT NULL, "
+        . " primary key ( id )"
+        . " )";
+    $db->sql_query($query);
+
+    $query = "CREATE TABLE IF NOT EXISTS `" . TABLE_EXPEDITION_ITEMS . "` (
+            `id` INT NOT NULL AUTO_INCREMENT,
+            `id_eXpedition` INT NOT NULL DEFAULT '0',
+            `type` ENUM('Metal', 'Cristal', 'Deut', 'Kraken', 'Detroid', 'Newtron') NOT NULL,
+            `niveau` ENUM('bronze', 'argent', 'or') NOT NULL,
+            PRIMARY KEY (`id`)
+          ) DEFAULT CHARSET=utf8";
+    $db->sql_query($query);
+
+$query = "REPLACE INTO " . TABLE_XTENSE_CALLBACKS . " ( `mod_id` , `function` , `type` ) VALUES ( '" . $mod_id . "', 'eXpedition_attack', 'rc')";
+$db->sql_query($query);
+
 
 update_mod($mod_folder, $mod_name);
 

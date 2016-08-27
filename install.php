@@ -12,7 +12,8 @@ define("TABLE_EXPEDITION_NUL", $table_prefix."eXpedition_nul"); 		// 0 - Nul
 define("TABLE_EXPEDITION_RESS", $table_prefix."eXpedition_ress"); 		// 1 - Ressources
 define("TABLE_EXPEDITION_FLEET", $table_prefix."eXpedition_fleet"); 	// 2 - Vaisseaux
 define("TABLE_EXPEDITION_MERCH", $table_prefix."eXpedition_merch"); 	// 3 - Marchand
-define("TABLE_EXPEDITION_OPTIONS", $table_prefix."eXpedition_options");	// Options
+define("TABLE_EXPEDITION_ATTACKS", $table_prefix."eXpedition_attacks"); // 4 - Attaques
+define("TABLE_EXPEDITION_ITEMS", $table_prefix."eXpedition_items");	    // 5 - Items
 define("TABLE_XTENSE_CALLBACKS", $table_prefix."xtense_callbacks");		// xtense Callbacks
   
 $mod_folder = 'expedition';
@@ -24,7 +25,8 @@ if (install_mod($mod_folder)) {
 	$db->sql_query("DROP TABLE IF EXISTS ".TABLE_EXPEDITION_RESS);
 	$db->sql_query("DROP TABLE IF EXISTS ".TABLE_EXPEDITION_FLEET);
 	$db->sql_query("DROP TABLE IF EXISTS ".TABLE_EXPEDITION_MERCH);
-	$db->sql_query("DROP TABLE IF EXISTS ".TABLE_EXPEDITION_OPTIONS);
+    $db->sql_query("DROP TABLE IF EXISTS ".TABLE_EXPEDITION_ATTACKS);
+    $db->sql_query("DROP TABLE IF EXISTS ".TABLE_EXPEDITION_ITEMS);
 	
 	// CREATE TABLES
 	createTables($db);
@@ -96,15 +98,35 @@ function createTables($db){
 		. " primary key ( id )"
 		. " )";
 	$db->sql_query($query);
+
+    $query = "CREATE TABLE ".TABLE_EXPEDITION_ATTACKS." ("
+        . " id INT NOT NULL AUTO_INCREMENT, "
+        . " id_eXpedition INT NOT NULL, "
+        . " pt INT NOT NULL, "
+        . " gt INT NOT NULL, "
+        . " cle INT NOT NULL, "
+        . " clo INT NOT NULL, "
+        . " cr INT NOT NULL, "
+        . " vb INT NOT NULL, "
+        . " vc INT NOT NULL, "
+        . " rec INT NOT NULL, "
+        . " se INT NOT NULL, "
+        . " bmb INT NOT NULL, "
+        . " dst INT NOT NULL, "
+        . " edlm INT NOT NULL,"
+        . " tra INT NOT NULL, "
+        . " primary key ( id )"
+        . " )";
+    $db->sql_query($query);
 	
-	$query = "CREATE TABLE ".TABLE_EXPEDITION_OPTIONS." ("
-		. " id INT NOT NULL AUTO_INCREMENT, "
-		. " user_id INT NOT NULL, "
-		. " opts INT NOT NULL, "
-		. " val INT NOT NULL, "
-		. " primary key ( id )"
-		. " )";
-	$db->sql_query($query);
+	$query = "CREATE TABLE `" . TABLE_EXPEDITION_ITEMS . "` (
+            `id` INT NOT NULL AUTO_INCREMENT,
+            `id_eXpedition` INT NOT NULL DEFAULT '0',
+            `type` ENUM('Metal', 'Cristal', 'Deut', 'Kraken', 'Detroid', 'Newtron') NOT NULL,
+            `niveau` ENUM('bronze', 'argent', 'or') NOT NULL,
+            PRIMARY KEY (`id`)
+          ) DEFAULT CHARSET=utf8";
+    $db->sql_query($query);
 }
 
 function addXtenseCallback($db){
@@ -126,7 +148,10 @@ function addXtenseCallback($db){
 		if($nresult == 0) {
 			// We add it
 			$query = 'INSERT INTO '.TABLE_XTENSE_CALLBACKS.' (mod_id, function, type, active) VALUES ('.$mod_id.', "eXpedition_xtense2", "expedition", 1)';
-			$db->sql_query($query);	
+			$db->sql_query($query);
+
+            $query = "INSERT INTO " . TABLE_XTENSE_CALLBACKS . " ( `mod_id` , `function` , `type` ) VALUES ( '" . $mod_id . "', 'eXpedition_attack', 'rc')";
+            $db->sql_query($query);
 		}
 	} else {
 		// FAIL : NO XTENSE2
