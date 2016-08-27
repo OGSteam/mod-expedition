@@ -113,10 +113,10 @@ $data = formatUserData($data);
                 <th align=center style="width: 200px;"><?php echo $key ?></th>
                 <th align=center style="width: 75px;"></th>
                 <td style="width: 20px;"></td>
-                <th align=center style="width: 100px;"><?php echo $resDate['Total']['metal'] ?></th>
-                <th align=center style="width: 100px;"><?php echo $resDate['Total']['cristal'] ?></th>
-                <th align=center style="width: 100px;"><?php echo $resDate['Total']['deut'] ?></th>
-                <th align=center style="width: 100px;"><?php echo $resDate['Total']['AM'] ?></th>
+                <th align=center style="width: 100px;"><?php echo formate_number($resDate['Total']['metal']) ?></th>
+                <th align=center style="width: 100px;"><?php echo formate_number($resDate['Total']['cristal']) ?></th>
+                <th align=center style="width: 100px;"><?php echo formate_number($resDate['Total']['deut']) ?></th>
+                <th align=center style="width: 100px;"><?php echo formate_number($resDate['Total']['AM']) ?></th>
             </tr>
             <?php foreach ($resDate['Details'] as $detail) {
                 ?>
@@ -129,10 +129,10 @@ $data = formatUserData($data);
                         style="width: 200px;"><?php echo date('d-m-Y - H:i:s', $detail['date']) ?></td>
                     <td class='b' align=center style="width: 75px;">[<?php echo $detail['position'] ?>]</td>
                     <td style="width: 20px;"></td>
-                    <td class='b' align=center style="width: 100px;"><?php echo $detail['metal'] ?></td>
-                    <td class='b' align=center style="width: 100px;"><?php echo $detail['cristal'] ?></td>
-                    <td class='b' align=center style="width: 100px;"><?php echo $detail['deut'] ?></td>
-                    <td class='b' align=center style="width: 100px;"><?php echo $detail['AM'] ?></td>
+                    <td class='b' align=center style="width: 100px;"><?php echo formate_number($detail['metal']) ?></td>
+                    <td class='b' align=center style="width: 100px;"><?php echo formate_number($detail['cristal']) ?></td>
+                    <td class='b' align=center style="width: 100px;"><?php echo formate_number($detail['deut']) ?></td>
+                    <td class='b' align=center style="width: 100px;"><?php echo formate_number($detail['AM']) ?></td>
                 </tr>
                 <?php
             }
@@ -255,7 +255,7 @@ $data = formatUserData($data);
     <tbody>
     <?php
     if (count($data['Merchant']) != 0) {
-        foreach ($data['Merchant'] as $resDate) {
+        foreach ($data['Merchant'] as $date => $resDate) {
             ?>
             <tr class="total-line">
                 <?php if ($typeUser == 0) { ?>
@@ -312,7 +312,7 @@ $data = formatUserData($data);
     <tbody>
     <?php
     if (count($data['Items']) != 0) {
-        foreach ($data['Items'] as $resDate) {
+        foreach ($data['Items'] as $date => $resDate) {
             ?>
             <tr class="total-line">
                 <?php if ($typeUser == 0) { ?>

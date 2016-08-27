@@ -9,6 +9,7 @@ if (!defined('IN_SPYOGAME')) {
 global $db, $table_prefix;
 
 define("TABLE_EXPEDITION_ATTACKS", $table_prefix."eXpedition_attacks"); // 4 - Attaques
+define("TABLE_EXPEDITION_ITEMS", $table_prefix."eXpedition_items"); // 5 - Items
 define("TABLE_XTENSE_CALLBACKS", $table_prefix."xtense_callbacks");		// xtense Callbacks
 
 $mod_folder = 'expedition';
