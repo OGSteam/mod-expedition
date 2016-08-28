@@ -49,6 +49,7 @@ define("TABLE_EXPEDITION_RESS", $table_prefix."eXpedition_ress"); 		// 1 - Resso
 define("TABLE_EXPEDITION_FLEET", $table_prefix."eXpedition_fleet"); 	// 2 - Vaisseaux
 define("TABLE_EXPEDITION_MERCH", $table_prefix."eXpedition_merch"); 	// 3 - Marchand
 define("TABLE_EXPEDITION_ATTACKS", $table_prefix."eXpedition_attacks"); // 4 - Attaques
+define("TABLE_EXPEDITION_ITEMS", $table_prefix."eXpedition_items");     // 5 - Attaques
 
 function logging($msg)
 {
@@ -72,7 +73,10 @@ function eXpedition_analysis($uid, $galaxy, $system, $timestamp, $content)
  	$regexFleet = "/Votre\sflotte\ss\`est\sagrandie\,\svoici\sles\snouveaux\svaisseaux\squi\ss\`y\ssont\sjoints\s\:(.+\d)/";
  	$regexRess  = "/L`attaquant\sobtient\s(\S+)\s[\(\AM\)]*\s?([\d+\.+]*)/";
  	$regexMerch = ["/liste\sde\sclients\sprivilégiés/", "/dans\svotre\sempire\sun\sreprésentant\schargé\sde\sressources\sà\séchanger/"];
-	$regexAttack = ["/rencontre peu amicale avec une espèce inconnue/", "/Quelques pirates/", "/par un petit groupe de vaisseaux inconnus/"];
+	$regexAttack = ["/rencontre peu amicale avec une espèce inconnue/",
+                    "/Quelques pirates/",
+                    "/par un petit groupe de vaisseaux inconnus/",
+                    "/Des barbares primitifs nous attaquent/"];
     $regexItems = "/L\`objet ([A-z ]+) en ([A-z]+) a été ajouté à l\`inventaire/";
 
 	// Check if new
