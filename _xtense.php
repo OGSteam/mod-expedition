@@ -73,10 +73,22 @@ function eXpedition_analysis($uid, $galaxy, $system, $timestamp, $content)
  	$regexFleet = "/Votre\sflotte\ss\`est\sagrandie\,\svoici\sles\snouveaux\svaisseaux\squi\ss\`y\ssont\sjoints\s\:(.+\d)/";
  	$regexRess  = "/L`attaquant\sobtient\s(\S+)\s[\(\AM\)]*\s?([\d+\.+]*)/";
  	$regexMerch = ["/liste\sde\sclients\sprivilégiés/", "/dans\svotre\sempire\sun\sreprésentant\schargé\sde\sressources\sà\séchanger/"];
-	$regexAttack = ["/rencontre peu amicale avec une espèce inconnue/",
+	$regexAttack = ["/Moa Tikarr/",
+                    "/expédition a fait une rencontre fort peu agréable avec des pirates/",
                     "/Quelques pirates/",
+                    "/pirates fortement alcoolisés/",
+                    "/Le combat n'a pû être évité/",
+                    "/Nous avons dû nous défendre contre des pirates/",
+                    "/le combat avec les pirates était inévitable/",
+                    "/Des vaisseaux inconnus ont attaqué la flotte/",
+                    "/la flotte est en train d\`être attaquée/",
+                    "/enfreint les espaces/",
                     "/par un petit groupe de vaisseaux inconnus/",
+	                "/rencontre peu amicale avec une espèce inconnue/",
+                    "/Une flotte de vaisseaux cristallins/",
+                    "/Une espèce inconnue attaque notre expédition/",
                     "/Des barbares primitifs nous attaquent/"];
+
     $regexItems = "/L\`objet ([A-z ]+) en ([A-z]+) a été ajouté à l\`inventaire/";
 
 	// Check if new
@@ -241,14 +253,6 @@ function eXpedition_analysis($uid, $galaxy, $system, $timestamp, $content)
 			
 			return true;
 		}
-		// ATTAQUE ?
-		else if (preg_match($regexAttack[0], $content) != 0
-				|| preg_match($regexAttack[1], $content) != 0
-				|| preg_match($regexAttack[2], $content) != 0)
-		{
-		    logging("Attaque");
-			// Dans le cas d'une attaque on ne fait rien
-		}
 		// Items
         else if(preg_match($regexItems, $content, $expItems) != 0)
         {
@@ -293,16 +297,31 @@ function eXpedition_analysis($uid, $galaxy, $system, $timestamp, $content)
         }
 		// OTHER
 		else {
-			logging("Autre");
-			$query = "INSERT INTO ".TABLE_EXPEDITION." (user_id, date, pos_galaxie, pos_sys, type) 
+            // ATTAQUE ?
+            $attaque =  false;
+            foreach($regexAttack as $reg)
+            {
+                if(preg_match($reg, $content) != 0)
+                    $attaque = true;
+            }
+            if ($attaque)
+            {
+                logging("Attaque");
+                // Dans le cas d'une attaque on ne fait rien
+            } else {
+
+
+                logging("Autre");
+                $query = "INSERT INTO " . TABLE_EXPEDITION . " (user_id, date, pos_galaxie, pos_sys, type) 
 				        VALUES ($uid, $timestamp, $galaxy, $system, 0)";
-			$db->sql_query($query);
-			$idInsert = $db->sql_insertid();
-			$query = 
-				"INSERT INTO ".TABLE_EXPEDITION_NUL." 
+                $db->sql_query($query);
+                $idInsert = $db->sql_insertid();
+                $query =
+                    "INSERT INTO " . TABLE_EXPEDITION_NUL . " 
 				(id_eXpedition, typeVitesse) 
 				VALUES ($idInsert, 0)"; //TODO : Choisir le type !
-			$db->sql_query($query);
+                $db->sql_query($query);
+            }
 			
 			return true;
 		}
