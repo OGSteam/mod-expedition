@@ -290,7 +290,7 @@ function eXpedition_analysis($uid, $galaxy, $system, $timestamp, $content)
             $db->sql_query($query);
             $idInsert = $db->sql_insertid();
 
-            $query = "INSERT INTO " . TABLE_EXPEDITION_ITEMS ."(id_eXpedition, type, niveau) VALUES ($idInsert, '" . $type . "', '" . $itemQuality . "'")";
+            $query = "INSERT INTO " . TABLE_EXPEDITION_ITEMS ."(id_eXpedition, type, niveau) VALUES ($idInsert, '" . $type . "', '" . $itemQuality . "')";
             $db->sql_query($query);
 
             return true;
