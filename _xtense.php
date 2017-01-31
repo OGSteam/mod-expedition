@@ -355,7 +355,7 @@ function attack_analysis ($user_id, $rapport)
 
 		// On vérifie qu'il s'agit d'un RC d'expédition
 		if($json->coordinates->position != '16')
-			return false;
+			return TRUE;
 
 		//On vérifie que cette attaque n'a pas déja été enregistrée
 		$query = "SELECT * 
