@@ -345,32 +345,27 @@ function attack_analysis ($user_id, $rapport)
 	global $db;
 	logging("ATTACK");
 
-	if (!$rapport['date']) {
+	$json = json_decode($rapport['json']);
+
+	if (!isset($json->event_timestamp)) {
 		return FALSE;
 	} else {
 
-		$pertes = $rapport['result']['d_lost'];
-		$timestamp = $rapport['date'];
+		$timestamp = $json->event_timestamp;
 
 		// On vérifie qu'il s'agit d'un RC d'expédition
-		$regexCoords = "/([0-9]+):([0-9]+):16$/";
-		if(preg_match($regexCoords, $rapport['n'][0]['coords'], $coords) == 0)
+		if($json->coordinates->position != '16')
 			return false;
-
-		//Coordonnées où a eu lieu l'attaque
-		$coord_expe = $coords['0'];
 
 		//On vérifie que cette attaque n'a pas déja été enregistrée
 		$query = "SELECT * 
 		FROM ".TABLE_EXPEDITION." 
 		WHERE user_id = $user_id 
 		AND date = $timestamp 
-		AND pos_galaxie = $coords[1]
-		AND pos_sys = $coords[2]";
+		AND pos_galaxie = {$json->coordinates->galaxy}
+		AND pos_sys = {$json->coordinates->system}";
 		if($db->sql_numrows($db->sql_query($query)) != 0)
 			return TRUE;
-
-		$firstRound = $rapport['n'][1];
 
 		//On regarde dans les coordonnées de l'espace personnel du joueur qui insère les données via le plugin si il fait partie des attaquants et/ou des défenseurs
 		$query = "SELECT coordinates FROM " . TABLE_USER_BUILDING . " WHERE user_id='" . $user_id . "'";
@@ -381,63 +376,52 @@ function attack_analysis ($user_id, $rapport)
 			$coordinates[] = $coordinate[0];
 
 		// L'utilisateur n'est pas celui ayant réalisé l'expédition, on s'arrête là
-		if (count(array_intersect (array($firstRound['coords']), $coordinates)) == 0)
+		$defenders = $json->defender;
+		$defenderId = key($defenders);
+		if (count(array_intersect (array($json->defender->$defenderId->ownerCoordinates), $coordinates)) == 0)
 			return false;
 
+		$defender = $json->defenderJSON;
+		$lastRound = $defender->combatRounds[count($defender->combatRounds)-1];
 
-		$content = $firstRound['content'];
-		$ships['start'] = array();
-		$ships['start']['PT'] = isset($content['PT']) ? intval($content['PT']) : 0;
-		$ships['start']['GT'] = isset($content['GT']) ? intval($content['GT']) : 0;
-		$ships['start']['CLE'] = isset($content['CLE']) ? intval($content['CLE']) : 0;
-		$ships['start']['CLO'] = isset($content['CLO']) ? intval($content['CLO']) : 0;
-		$ships['start']['CR'] = isset($content['CR']) ? intval($content['CR']) : 0;
-		$ships['start']['VB'] = isset($content['VB']) ? intval($content['VB']) : 0;
-		$ships['start']['VC'] = isset($content['VC']) ? intval($content['VC']) : 0;
-		$ships['start']['REC'] = isset($content['REC']) ? intval($content['REC']) : 0;
-		$ships['start']['SE'] = isset($content['SE']) ? intval($content['SE']) : 0;
-		$ships['start']['BMD'] = isset($content['BMD']) ? intval($content['BMD']) : 0;
-		$ships['start']['DST'] = isset($content['DST']) ? intval($content['DST']) : 0;
-		$ships['start']['EDLM'] = isset($content['EDLM']) ? intval($content['EDLM']) : 0;
-		$ships['start']['TRA'] = isset($content['TRA']) ? intval($content['TRA']) : 0;
+		$ships = array('PT', 'GT', 'CLE', 'CLO', 'CR', 'VB', 'VC', 'REC', 'SE', 'BMD', 'DST', 'EDLM', 'TRA');
+		$ships = array_fill_keys($ships, 0);
 
-		$lastRound = $rapport['n'][count($rapport['n'])-1];
-		$content = $lastRound['content'];
-		$ships['end'] = array();
-		$ships['end']['PT'] = isset($content['PT']) ? intval($content['PT']) : 0;
-		$ships['end']['GT'] = isset($content['GT']) ? intval($content['GT']) : 0;
-		$ships['end']['CLE'] = isset($content['CLE']) ? intval($content['CLE']) : 0;
-		$ships['end']['CLO'] = isset($content['CLO']) ? intval($content['CLO']) : 0;
-		$ships['end']['CR'] = isset($content['CR']) ? intval($content['CR']) : 0;
-		$ships['end']['VB'] = isset($content['VB']) ? intval($content['VB']) : 0;
-		$ships['end']['VC'] = isset($content['VC']) ? intval($content['VC']) : 0;
-		$ships['end']['REC'] = isset($content['REC']) ? intval($content['REC']) : 0;
-		$ships['end']['SE'] = isset($content['SE']) ? intval($content['SE']) : 0;
-		$ships['end']['BMD'] = isset($content['BMD']) ? intval($content['BMD']) : 0;
-		$ships['end']['DST'] = isset($content['DST']) ? intval($content['DST']) : 0;
-		$ships['end']['EDLM'] = isset($content['EDLM']) ? intval($content['EDLM']) : 0;
-		$ships['end']['TRA'] = isset($content['TRA']) ? intval($content['TRA']) : 0;
+		$correspondance = array('202' => 'PT', '203' => 'GT',
+			'204' => 'CLE','205' => 'CLO',
+			'206' => 'CR','207' => 'VB',
+			'208' => 'VC','209' => 'REC',
+			'210' => 'SE', '211' => 'BMD',
+			'212' => 'SAT', '213' => 'DST',
+			'214' => 'EDLM', '215' => 'TRA');
+
+        if(isset($lastRound->losses->$defenderId)) {
+        	$losses = $lastRound->losses->$defenderId;
+            foreach ($losses as $ship => $loss) {
+                $ships[$correspondance[$ship]] = $loss;
+            }
+        }
 
 		$query = "INSERT INTO ".TABLE_EXPEDITION."(user_id, date, pos_galaxie, pos_sys, type) 
-					values ($user_id, $timestamp, $coords[1], $coords[2], 4)";
+					values ($user_id, $timestamp, {$json->coordinates->galaxy}, {$json->coordinates->system}, 4)";
 		$db->sql_query($query);
 		$idInsert = $db->sql_insertid();
 
 		$query = "INSERT INTO " . TABLE_EXPEDITION_ATTACKS . " (id_eXpedition, pt, gt, cle, clo, cr, vb, vc, rec, se, bmb, dst, edlm, tra)
 				 VALUES ($idInsert ";
-		$query .= "," . ($ships['start']['PT'] - $ships['end']['PT']);
-		$query .= "," . ($ships['start']['GT'] - $ships['end']['GT']);
-		$query .=  "," . ($ships['start']['CLE'] - $ships['end']['CLE']);
-		$query .=  "," . ($ships['start']['CLO'] - $ships['end']['CLO']);
-		$query .=  "," . ($ships['start']['CR'] - $ships['end']['CR']);
-		$query .=  "," . ($ships['start']['VB'] - $ships['end']['VB']);
-		$query .=  "," . ($ships['start']['VC'] - $ships['end']['VC']);
-		$query .=  "," . ($ships['start']['REC'] - $ships['end']['REC']);
-		$query .=  "," . ($ships['start']['SE'] - $ships['end']['SE']);
-		$query .=  "," . ($ships['start']['BMD'] - $ships['end']['BMD']);
-		$query .=  "," . ($ships['start']['DST'] - $ships['end']['DST']);
-		$query .=  "," . ($ships['start']['EDLM'] - $ships['end']['EDLM']);
-		$query .=  "," . ($ships['start']['TRA'] - $ships['end']['TRA']);
+		$query .= "," . $ships['PT'];
+		$query .= "," . $ships['GT'];
+		$query .=  "," . $ships['CLE'];
+		$query .=  "," . $ships['CLO'];
+		$query .=  "," . $ships['CR'];
+		$query .=  "," . $ships['VB'];
+		$query .=  "," . $ships['VC'];
+		$query .=  "," . $ships['REC'];
+		$query .=  "," . $ships['SE'];
+		$query .=  "," . $ships['BMD'];
+		$query .=  "," . $ships['DST'];
+		$query .=  "," . $ships['EDLM'];
+		$query .=  "," . $ships['TRA'];
 		$query .= ")";
 		$db->sql_query($query);
 
