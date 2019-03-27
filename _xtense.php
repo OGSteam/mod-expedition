@@ -89,7 +89,8 @@ function eXpedition_analysis($uid, $galaxy, $system, $timestamp, $content)
                     "/Une espèce inconnue attaque notre expédition/",
                     "/Des barbares primitifs nous attaquent/"];
 
-    $regexItems = "/L\`objet ([A-z ]+) en ([A-z]+) a été ajouté à l\`inventaire/";
+    $regexItems = ["/L\`objet ([A-z ]+) en ([A-z]+) a été ajouté à l\`inventaire/",
+	    	  "/L\'objet ([A-z ]+) en ([A-z]+) a été ajouté à l\'inventaire/"];
 
 	// Check if new
 	$query = "SELECT * 
