@@ -2,7 +2,7 @@
 
 if (!defined('IN_SPYOGAME')) die("Hacking attempt");
 
-// recup�rer le nom de quelqu'un
+// recupérer le nom de quelqu'un
 function getuserNameById($uid)
 {
     global $db, $eXpDebug;
@@ -18,14 +18,14 @@ function getuserNameById($uid)
 
 /**
  *
- *   Retourne le contenu de la base pour la p�riode donn�e.
+ *   Retourne le contenu de la base pour la période donnée.
  *
  **/
 function readDB($uid = 0, $dateB = 0, $dateE = 0)
 {
     global $db;
 
-    // Nombre d'exp�ditions par type
+    // Nombre d'expéditions par type
     $query = "SELECT count(*) as nb, type 
               FROM " . TABLE_EXPEDITION . "
               WHERE ";
@@ -83,7 +83,7 @@ function readDB($uid = 0, $dateB = 0, $dateE = 0)
 
 
     // Nombre de vaisseaux ramenés
-    $query = "SELECT sum(pt), sum(gt), sum(cle), sum(clo), sum(cr), sum(vb), sum(vc), sum(rec), sum(se), sum(bmb), sum(dst), sum(tra)
+    $query = "SELECT sum(pt), sum(gt), sum(cle), sum(clo), sum(cr), sum(vb), sum(vc), sum(rec), sum(se), sum(bmb), sum(dst), sum(tra), sum(fau), sum(ecl)
 	          FROM " . TABLE_EXPEDITION . " AS exp INNER JOIN  " . TABLE_EXPEDITION_FLEET . " AS expFleet ON exp.id = expFleet.id_eXpedition
               WHERE ";
     if ($uid != 0)
@@ -91,7 +91,7 @@ function readDB($uid = 0, $dateB = 0, $dateE = 0)
     $query .= "date BETWEEN $dateB AND $dateE";
     $result = $db->sql_query($query);
 
-    list($expeditionData['sumpt'], $expeditionData['sumgt'], $expeditionData['sumcle'], $expeditionData['sumclo'], $expeditionData['sumcr'], $expeditionData['sumvb'], $expeditionData['sumvc'], $expeditionData['sumrec'], $expeditionData['sumse'], $expeditionData['sumbmb'], $expeditionData['sumdst'], $expeditionData['sumtra']) = $db->sql_fetch_row($result);
+    list($expeditionData['sumpt'], $expeditionData['sumgt'], $expeditionData['sumcle'], $expeditionData['sumclo'], $expeditionData['sumcr'], $expeditionData['sumvb'], $expeditionData['sumvc'], $expeditionData['sumrec'], $expeditionData['sumse'], $expeditionData['sumbmb'], $expeditionData['sumdst'], $expeditionData['sumtra'], $expeditionData['sumfau'], $expeditionData['sumecl']) = $db->sql_fetch_row($result);
     $expeditionData['sumUpt'] = $expeditionData['sumpt'] * 4;
     $expeditionData['sumUgt'] = $expeditionData['sumgt'] * 12;
     $expeditionData['sumUcle'] = $expeditionData['sumcle'] * 4;
@@ -104,6 +104,8 @@ function readDB($uid = 0, $dateB = 0, $dateE = 0)
     $expeditionData['sumUbmb'] = $expeditionData['sumbmb'] * 90;
     $expeditionData['sumUdst'] = $expeditionData['sumdst'] * 125;
     $expeditionData['sumUtra'] = $expeditionData['sumtra'] * 85;
+    $expeditionData['sumUfau'] = $expeditionData['sumfau'] * 160;
+    $expeditionData['sumUecl'] = $expeditionData['sumecl'] * 31;
 
     // Nombre de marchands Kidnappés
     $query = "SELECT count(*)
@@ -118,7 +120,7 @@ function readDB($uid = 0, $dateB = 0, $dateE = 0)
     $result = $db->sql_query($query);
     list($expeditionData['sumM']) = $db->sql_fetch_row($result);
 
-    $query = "SELECT sum(pt), sum(gt), sum(cle), sum(clo), sum(cr), sum(vb), sum(vc), sum(rec), sum(se), sum(bmb), sum(dst), sum(edlm), sum(tra)
+    $query = "SELECT sum(pt), sum(gt), sum(cle), sum(clo), sum(cr), sum(vb), sum(vc), sum(rec), sum(se), sum(bmb), sum(dst), sum(edlm), sum(tra), sum(fau), sum(ecl)
               FROM " . TABLE_EXPEDITION . " AS exp
                 INNER JOIN " . TABLE_EXPEDITION_ATTACKS . " expAtt
                     ON exp.id = expAtt.id_eXpedition
@@ -128,7 +130,7 @@ function readDB($uid = 0, $dateB = 0, $dateE = 0)
     $query .= "date BETWEEN $dateB AND $dateE ";
 
     $result = $db->sql_query($query);
-    list($expeditionData['sumptLost'], $expeditionData['sumgtLost'], $expeditionData['sumcleLost'], $expeditionData['sumcloLost'], $expeditionData['sumcrLost'], $expeditionData['sumvbLost'], $expeditionData['sumvcLost'], $expeditionData['sumrecLost'], $expeditionData['sumseLost'], $expeditionData['sumbmbLost'], $expeditionData['sumdstLost'], $expeditionData['sumedlmLost'], $expeditionData['sumtraLost']) = $db->sql_fetch_row($result);
+    list($expeditionData['sumptLost'], $expeditionData['sumgtLost'], $expeditionData['sumcleLost'], $expeditionData['sumcloLost'], $expeditionData['sumcrLost'], $expeditionData['sumvbLost'], $expeditionData['sumvcLost'], $expeditionData['sumrecLost'], $expeditionData['sumseLost'], $expeditionData['sumbmbLost'], $expeditionData['sumdstLost'], $expeditionData['sumedlmLost'], $expeditionData['sumtraLost'], $expeditionData['sumfauLost'], $expeditionData['sumeclLost']) = $db->sql_fetch_row($result);
     $expeditionData['sumUptLost'] = $expeditionData['sumptLost'] * 4;
     $expeditionData['sumUgtLost'] = $expeditionData['sumgtLost'] * 12;
     $expeditionData['sumUcleLost'] = $expeditionData['sumcleLost'] * 4;
@@ -142,6 +144,8 @@ function readDB($uid = 0, $dateB = 0, $dateE = 0)
     $expeditionData['sumUdstLost'] = $expeditionData['sumdstLost'] * 125;
     $expeditionData['sumUedlmLost'] = $expeditionData['sumedlmLost'] * 10000;
     $expeditionData['sumUtraLost'] = $expeditionData['sumtraLost'] * 85;
+    $expeditionData['sumUfauLost'] = $expeditionData['sumfauLost'] * 160;
+    $expeditionData['sumUeclLost'] = $expeditionData['sumeclLost'] * 31;
 
 
     $query = "SELECT expItems.type, expItems.niveau, count(*)
@@ -185,20 +189,22 @@ function readDB($uid = 0, $dateB = 0, $dateE = 0)
     $expeditionData['totFleet'] = $expeditionData['sumpt'] + $expeditionData['sumgt'] + $expeditionData['sumcle']
         + $expeditionData['sumclo'] + $expeditionData['sumcr'] + $expeditionData['sumvb'] +
         $expeditionData['sumvc'] + $expeditionData['sumrec'] + $expeditionData['sumse'] +
-        $expeditionData['sumbmb'] + $expeditionData['sumdst'] + $expeditionData['sumtra'];
+        $expeditionData['sumbmb'] + $expeditionData['sumdst'] + $expeditionData['sumtra'] + 
+        $expeditionData['sumfau'] + $expeditionData['sumecl'];
     $expeditionData['totUFleet'] = $expeditionData['sumpt'] * 4 + $expeditionData['sumgt'] * 12 + $expeditionData['sumcle'] * 4
         + $expeditionData['sumclo'] * 10 + $expeditionData['sumcr'] * 29 + $expeditionData['sumvb'] * 60 +
         $expeditionData['sumvc'] * 40 + $expeditionData['sumrec'] * 18 + $expeditionData['sumse'] +
-        $expeditionData['sumbmb'] * 90 + $expeditionData['sumdst'] * 125 + $expeditionData['sumtra'] * 85;
+        $expeditionData['sumbmb'] * 90 + $expeditionData['sumdst'] * 125 + $expeditionData['sumtra'] * 85 + 
+        $expeditionData['sumfau'] * 160 + $expeditionData['sumecl'] * 31;
 
     $expeditionData['totFleetLost'] = $expeditionData['sumptLost'] + $expeditionData['sumgtLost'] + $expeditionData['sumcleLost']
         + $expeditionData['sumcloLost'] + $expeditionData['sumcrLost'] + $expeditionData['sumvbLost'] +
         $expeditionData['sumvcLost'] + $expeditionData['sumrecLost'] + $expeditionData['sumseLost'] +
-        $expeditionData['sumbmbLost'] + $expeditionData['sumdstLost'] + $expeditionData['sumedlmLost'] + $expeditionData['sumtraLost'];
+        $expeditionData['sumbmbLost'] + $expeditionData['sumdstLost'] + $expeditionData['sumedlmLost'] + $expeditionData['sumtraLost'] + $expeditionData['sumfauLost'] + $expeditionData['sumeclLost'];
     $expeditionData['totUFleetLost'] = $expeditionData['sumUptLost'] + $expeditionData['sumUgtLost'] + $expeditionData['sumUcleLost']
         + $expeditionData['sumUcloLost'] + $expeditionData['sumUcrLost'] + $expeditionData['sumUvbLost'] +
         $expeditionData['sumUvcLost'] + $expeditionData['sumUrecLost'] + $expeditionData['sumUseLost'] +
-        $expeditionData['sumUbmbLost'] + $expeditionData['sumUdstLost'] + $expeditionData['sumUedlmLost'] + $expeditionData['sumUtraLost'];
+        $expeditionData['sumUbmbLost'] + $expeditionData['sumUdstLost'] + $expeditionData['sumUedlmLost'] + $expeditionData['sumUtraLost'] + $expeditionData['sumUfauLost'] + $expeditionData['sumUeclLost'];
     $expeditionData['totItems'] = $totItems;
 
     if (!$expeditionData['nbTotal']) {
@@ -229,7 +235,7 @@ function create_pie_expedition($_data, $_legend, $_title, $conteneur)
     global $server_config;
     $retour = "";
 
-    // test erreurs donn�s
+    // test erreurs données
     if (!check_var($_data, "Special", "#^[0-9(_x_)]+$#") || !check_var($_legend,
             "Text") || !check_var($_title, "Text") || !check_var($conteneur, "Text")
     ) {
@@ -248,7 +254,7 @@ function create_pie_expedition($_data, $_legend, $_title, $conteneur)
         return $retour;
     }
 
-    // pr�paration des donn�es
+    // préparation des données
     $i = 0;
     $temp = array();
     while ($i < count($data)) {
@@ -258,7 +264,7 @@ function create_pie_expedition($_data, $_legend, $_title, $conteneur)
     // format hightchart
     $format_data = implode(" , ", $temp);
 
-    // cr�ation du script
+    // création du script
     $retour .= "<script type=\"text/javascript\">
   var " . $conteneur . ";
   	$(document).ready(function() {
@@ -593,7 +599,7 @@ function readDBuserDet($uid = 0, $datedeb = 0, $datefin = 0)
 
     // On recupere le tableau des expeditions vaisseau :
     $data['Fleet'] = array();
-    $query = "SELECT e.id, e.user_id, e.date, e.pos_galaxie, e.pos_sys, pt, gt, cle, clo, cr, vb, vc, rec, se, bmb, dst, tra, units
+    $query = "SELECT e.id, e.user_id, e.date, e.pos_galaxie, e.pos_sys, pt, gt, cle, clo, cr, vb, vc, rec, se, bmb, dst, tra, fau, ecl, units
             FROM " . TABLE_EXPEDITION . " AS e
                 INNER JOIN " . TABLE_EXPEDITION_FLEET . " AS s
                     ON e.id = s.id_eXpedition
@@ -641,7 +647,7 @@ function readDBuserDet($uid = 0, $datedeb = 0, $datefin = 0)
 
     $data['Attacks'] = array();
     // On recupere le tableau des expeditions attaquées :
-    $query = "SELECT e.id, e.user_id, e.date, e.pos_galaxie, e.pos_sys, pt, gt, cle, clo, cr, vb, vc, rec, se, bmb, dst, edlm, tra
+    $query = "SELECT e.id, e.user_id, e.date, e.pos_galaxie, e.pos_sys, pt, gt, cle, clo, cr, vb, vc, rec, se, bmb, dst, edlm, tra, fau, ecl
                 FROM " . TABLE_EXPEDITION . " AS e
                     INNER JOIN " . TABLE_EXPEDITION_ATTACKS . " AS s
                         ON e.id = s.id_eXpedition
@@ -704,7 +710,7 @@ function formatUserData(array $data)
     $result['Ressources'] = $ressources;
 
     $fleet = $result['Fleet'];
-    $keys = array('pt', 'gt', 'cle', 'clo', 'cr', 'vb', 'vc', 'rec', 'se', 'bmb', 'dst', 'tra', 'units');
+    $keys = array('pt', 'gt', 'cle', 'clo', 'cr', 'vb', 'vc', 'rec', 'se', 'bmb', 'dst', 'tra', 'fau', 'ecl', 'units');
     foreach ($data['Fleet'] as $exp) {
         if (!isset($users[$exp['user_id']])) {
             $users[$exp['user_id']] = getuserNameById($exp['user_id']);
@@ -761,7 +767,7 @@ function formatUserData(array $data)
     $result['Items'] = $items;
 
     $attacks = $result['Attacks'];
-    $keys = array('pt', 'gt', 'cle', 'clo', 'cr', 'vb', 'vc', 'rec', 'se', 'bmb', 'dst','edlm', 'tra');
+    $keys = array('pt', 'gt', 'cle', 'clo', 'cr', 'vb', 'vc', 'rec', 'se', 'bmb', 'dst','edlm', 'tra', 'fau', 'ecl');
     foreach ($data['Attacks'] as $exp) {
         if (!isset($users[$exp['user_id']])) {
             $users[$exp['user_id']] = getuserNameById($exp['user_id']);

@@ -49,7 +49,7 @@ define("TABLE_EXPEDITION_RESS", $table_prefix."eXpedition_ress"); 		// 1 - Resso
 define("TABLE_EXPEDITION_FLEET", $table_prefix."eXpedition_fleet"); 	// 2 - Vaisseaux
 define("TABLE_EXPEDITION_MERCH", $table_prefix."eXpedition_merch"); 	// 3 - Marchand
 define("TABLE_EXPEDITION_ATTACKS", $table_prefix."eXpedition_attacks"); // 4 - Attaques
-define("TABLE_EXPEDITION_ITEMS", $table_prefix."eXpedition_items");     // 5 - Attaques
+define("TABLE_EXPEDITION_ITEMS", $table_prefix."eXpedition_items");     // 5 - Items
 
 function logging($msg)
 {
@@ -89,8 +89,7 @@ function eXpedition_analysis($uid, $galaxy, $system, $timestamp, $content)
                     "/Une espèce inconnue attaque notre expédition/",
                     "/Des barbares primitifs nous attaquent/"];
 
-    $regexItems = ["/L\`objet ([A-z ]+) en ([A-z]+) a été ajouté à l\`inventaire/",
-	    	  "/L\'objet ([A-z ]+) en ([A-z]+) a été ajouté à l\'inventaire/"];
+    $regexItems = "/L\`objet ([A-zé ]+) en ([A-z]+) a été ajouté à l\`inventaire/";
 
 	// Check if new
 	$query = "SELECT * 
@@ -108,7 +107,7 @@ function eXpedition_analysis($uid, $galaxy, $system, $timestamp, $content)
 			logging("Flotte0".$expFleet[0]);
 			logging("Flotte1".$expFleet[1]);
 			// Init
-			$pt = $gt = $cle = $clo = $cr = $vb = $vc = $rec = $se = $bmb = $dst = $tra = 0;
+			$pt = $gt = $cle = $clo = $cr = $vb = $vc = $rec = $se = $bmb = $dst = $tra = $fau = $ecl = 0;
 			$units = 0;
 			
 			// Looking for specifics
@@ -160,6 +159,14 @@ function eXpedition_analysis($uid, $galaxy, $system, $timestamp, $content)
 				$tra = $reg[1]; 
 				$units += ( 30 + 40 + 15 ) * $tra;
 			}
+			if(preg_match("/Faucheur:\s(\d+)/", $expFleet[1], $reg)){
+				$fau = $reg[1]; 
+				$units += ( 85 + 55 + 20 ) * $fau;
+			}
+			if(preg_match("/Éclaireur:\s(\d+)/", $expFleet[1], $reg)){
+				$ecl = $reg[1]; 
+				$units += ( 8 + 15 + 8 ) * $ecl;
+			}
 			
 			$query = 
 					"INSERT INTO ".TABLE_EXPEDITION." 
@@ -170,8 +177,8 @@ function eXpedition_analysis($uid, $galaxy, $system, $timestamp, $content)
 			
 			$query = 
 				"Insert into ".TABLE_EXPEDITION_FLEET." 
-				(id_eXpedition, pt, gt, cle, clo, cr, vb, vc, rec, se, bmb, dst, tra, units)
-				values ($idInsert, $pt, $gt, $cle, $clo, $cr, $vb, $vc, $rec, $se, $bmb, $dst, $tra, $units)";
+				(id_eXpedition, pt, gt, cle, clo, cr, vb, vc, rec, se, bmb, dst, tra, fau, ecl, units)
+				values ($idInsert, $pt, $gt, $cle, $clo, $cr, $vb, $vc, $rec, $se, $bmb, $dst, $tra, $fau, $ecl, $units)";
 			$db->sql_query($query);
 			
 			return true;			
@@ -385,7 +392,7 @@ function attack_analysis ($user_id, $rapport)
 		$defender = $json->defenderJSON;
 		$lastRound = $defender->combatRounds[count($defender->combatRounds)-1];
 
-		$ships = array('PT', 'GT', 'CLE', 'CLO', 'CR', 'VB', 'VC', 'REC', 'SE', 'BMD', 'DST', 'EDLM', 'TRA');
+		$ships = array('PT', 'GT', 'CLE', 'CLO', 'CR', 'VB', 'VC', 'REC', 'SE', 'BMD', 'DST', 'EDLM', 'TRA', 'FAU', 'ECL');
 		$ships = array_fill_keys($ships, 0);
 
 		$correspondance = array('202' => 'PT', '203' => 'GT',
@@ -394,7 +401,8 @@ function attack_analysis ($user_id, $rapport)
 			'208' => 'VC','209' => 'REC',
 			'210' => 'SE', '211' => 'BMD',
 			'212' => 'SAT', '213' => 'DST',
-			'214' => 'EDLM', '215' => 'TRA');
+			'214' => 'EDLM', '215' => 'TRA',
+			'218' => 'FAU', '219' => 'ECL');
 
         if(isset($lastRound->losses->$defenderId)) {
         	$losses = $lastRound->losses->$defenderId;
@@ -408,7 +416,7 @@ function attack_analysis ($user_id, $rapport)
 		$db->sql_query($query);
 		$idInsert = $db->sql_insertid();
 
-		$query = "INSERT INTO " . TABLE_EXPEDITION_ATTACKS . " (id_eXpedition, pt, gt, cle, clo, cr, vb, vc, rec, se, bmb, dst, edlm, tra)
+		$query = "INSERT INTO " . TABLE_EXPEDITION_ATTACKS . " (id_eXpedition, pt, gt, cle, clo, cr, vb, vc, rec, se, bmb, dst, edlm, tra, fau, ecl)
 				 VALUES ($idInsert ";
 		$query .= "," . $ships['PT'];
 		$query .= "," . $ships['GT'];
@@ -423,6 +431,8 @@ function attack_analysis ($user_id, $rapport)
 		$query .=  "," . $ships['DST'];
 		$query .=  "," . $ships['EDLM'];
 		$query .=  "," . $ships['TRA'];
+		$query .=  "," . $ships['FAU'];
+		$query .=  "," . $ships['ECL'];
 		$query .= ")";
 		$db->sql_query($query);
 

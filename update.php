@@ -7,7 +7,11 @@ if (!defined('IN_SPYOGAME')) {
 
 // We'll need that
 global $db, $table_prefix;
-
+define("TABLE_EXPEDITION", $table_prefix."eXpedition");					// Toutes
+define("TABLE_EXPEDITION_NUL", $table_prefix."eXpedition_nul"); 		// 0 - Nul
+define("TABLE_EXPEDITION_RESS", $table_prefix."eXpedition_ress"); 		// 1 - Ressources
+define("TABLE_EXPEDITION_FLEET", $table_prefix."eXpedition_fleet"); 	// 2 - Vaisseaux
+define("TABLE_EXPEDITION_MERCH", $table_prefix."eXpedition_merch"); 	// 3 - Marchand
 define("TABLE_EXPEDITION_ATTACKS", $table_prefix."eXpedition_attacks"); // 4 - Attaques
 define("TABLE_EXPEDITION_ITEMS", $table_prefix."eXpedition_items"); // 5 - Items
 define("TABLE_XTENSE_CALLBACKS", $table_prefix."xtense_callbacks");		// xtense Callbacks
@@ -19,6 +23,8 @@ $mod_name   = 'eXpedition';
 $query = "SELECT id, version FROM ".TABLE_MOD." WHERE action='eXpedition'";
 $result = $db->sql_query($query);
 list($mod_id, $version) = $db->sql_fetch_row($result);
+
+// Mise à jour depuis les versions 1.1.0 et 1.0.2
 if($version == "1.1.0" || $version == "1.0.2"){
   $db->sql_query("DROP TABLE IF EXISTS ".TABLE_EXPEDITION_NUL);
   $db->sql_query("DROP TABLE IF EXISTS ".TABLE_EXPEDITION_RESS);
@@ -36,6 +42,7 @@ if($version == "1.1.0" || $version == "1.0.2"){
   $db->sql_query($query);
 }
 
+// Mise à jour pour intégration des items et attcks (versions inférieures à 1.1.8)
 $query = "CREATE TABLE IF NOT EXISTS ".TABLE_EXPEDITION_ATTACKS." ("
         . " id INT NOT NULL AUTO_INCREMENT, "
         . " id_eXpedition INT NOT NULL, "
@@ -65,6 +72,22 @@ $query = "CREATE TABLE IF NOT EXISTS ".TABLE_EXPEDITION_ATTACKS." ("
           ) DEFAULT CHARSET=utf8";
     $db->sql_query($query);
 
+// Mise à jour depuis les versions 1.1.8 et 1.1.9
+if($version == "1.1.8" || $version == "1.1.9"){
+	$query = "ALTER TABLE ".TABLE_EXPEDITION_FLEET." ("
+		. " ADD fau INT NOT NULL AFTER tra, "
+		. " ADD ecl INT NOT NULL AFTER fau "
+		. " )";
+	$db->sql_query($query);
+	
+	$query = "ALTER TABLE ".TABLE_EXPEDITION_FLEET." ("
+		. " ADD fau INT NOT NULL AFTER tra, "
+		. " ADD ecl INT NOT NULL AFTER fau "
+		. " )";
+	$db->sql_query($query);
+}
+	
+// Mise à jour de la version du mod et des Callbacks
 $query = "REPLACE INTO " . TABLE_XTENSE_CALLBACKS . " ( `mod_id` , `function` , `type` ) VALUES ( '" . $mod_id . "', 'eXpedition_attack', 'rc')";
 $db->sql_query($query);
 
