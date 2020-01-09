@@ -13,7 +13,7 @@ define("TABLE_EXPEDITION_RESS", $table_prefix."eXpedition_ress"); 		// 1 - Resso
 define("TABLE_EXPEDITION_FLEET", $table_prefix."eXpedition_fleet"); 	// 2 - Vaisseaux
 define("TABLE_EXPEDITION_MERCH", $table_prefix."eXpedition_merch"); 	// 3 - Marchand
 define("TABLE_EXPEDITION_ATTACKS", $table_prefix."eXpedition_attacks"); // 4 - Attaques
-define("TABLE_EXPEDITION_ITEMS", $table_prefix."eXpedition_items"); // 5 - Items
+define("TABLE_EXPEDITION_ITEMS", $table_prefix."eXpedition_items"); 	// 5 - Items
 define("TABLE_XTENSE_CALLBACKS", $table_prefix."xtense_callbacks");		// xtense Callbacks
 
 $mod_folder = 'expedition';
@@ -74,16 +74,10 @@ $query = "CREATE TABLE IF NOT EXISTS ".TABLE_EXPEDITION_ATTACKS." ("
 
 // Mise à jour depuis les versions 1.1.8 et 1.1.9
 if($version == "1.1.8" || $version == "1.1.9"){
-	$query = "ALTER TABLE ".TABLE_EXPEDITION_FLEET." ("
-		. " ADD fau INT NOT NULL AFTER tra, "
-		. " ADD ecl INT NOT NULL AFTER fau "
-		. " )";
+	$query = "ALTER TABLE ".TABLE_EXPEDITION_ATTACKS." ADD fau INT NOT NULL , ADD ecl INT NOT NULL ";
 	$db->sql_query($query);
-	
-	$query = "ALTER TABLE ".TABLE_EXPEDITION_FLEET." ("
-		. " ADD fau INT NOT NULL AFTER tra, "
-		. " ADD ecl INT NOT NULL AFTER fau "
-		. " )";
+
+	$query = "ALTER TABLE ".TABLE_EXPEDITION_FLEET." ADD fau INT NOT NULL AFTER tra , ADD ecl INT NOT NULL AFTER fau ";
 	$db->sql_query($query);
 }
 	
