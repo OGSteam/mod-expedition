@@ -9,25 +9,38 @@ if ( isset($pub_subaction) && $pub_subaction=="global" )
 	$user_id = 0;
 else
 	$user_id = $user_data['user_id'];
+	$temp = $db->sql_query("SELECT min(date) FROM ".TABLE_EXPEDITION." WHERE user_id = $user_id");
+	list($minDate) = $db->sql_fetch_row($temp);
 
-
-$temp = $db->sql_query("SELECT min(date) FROM ".TABLE_EXPEDITION." WHERE user_id = $user_id");
-list($minDate) = $db->sql_fetch_row($temp);
 
 $expeditionDataTotal = readDB($user_id, 0 , time());
 $expeditionDataMonth = readDB($user_id, mktime(0,0,0,date('m'),1,date('Y')), mktime(0,0,0,date('m')+1,1,date('Y')));
+$expeditionDataDay 	 = readDB($user_id, mktime(0,0,0,date('m'),date('d'),date('Y')), mktime(0,0,0,date('m'),date('d')+1,date('Y')));
 $currentMonth        = date('m/Y');
+$currentDay			 = date('d F');
 $firstExp            = date('d/m/Y', $minDate);
 
 // Pas de valeur décimale pour les points
 $expeditionDataTotal['totPtRess']  = (int)round($expeditionDataTotal['totPtRess']);
 $expeditionDataMonth['totPtRess']  = (int)round($expeditionDataMonth['totPtRess']);
+$expeditionDataDay['totPtRess']    = (int)round($expeditionDataDay['totPtRess']);
 $expeditionDataTotal['totUFleet']  = (int)round($expeditionDataTotal['totUFleet']);
 $expeditionDataMonth['totUFleet']  = (int)round($expeditionDataMonth['totUFleet']);
+$expeditionDataDay['totUFleet']    = (int)round($expeditionDataDay['totUFleet']);
 $expeditionDataTotal['moyUVFleet'] = (int)round($expeditionDataTotal['moyUVFleet']);
 $expeditionDataMonth['moyUVFleet'] = (int)round($expeditionDataMonth['moyUVFleet']);
+$expeditionDataDay['moyUVFleet']   = (int)round($expeditionDataDay['moyUVFleet']);
 $expeditionDataTotal['moyUFleet']  = (int)round($expeditionDataTotal['moyUFleet']);
 $expeditionDataMonth['moyUFleet']  = (int)round($expeditionDataMonth['moyUFleet']);
+$expeditionDataDay['moyUFleet']    = (int)round($expeditionDataDay['moyUFleet']);
+
+//Ajout YopShot
+$expeditionDataMonth['totPtGlob']  = (int)round(($expeditionDataMonth[totPtRess]+$expeditionDataMonth[totUFleet]-$expeditionDataMonth[totUFleetLost]));
+$expeditionDataTotal['totPtGlob']  = (int)round(($expeditionDataTotal[totPtRess]+$expeditionDataTotal[totUFleet]-$expeditionDataTotal[totUFleetLost]));
+$expeditionDataDay['totPtGlob']    = (int)round(($expeditionDataDay[totPtRess]+$expeditionDataDay[totUFleet]-$expeditionDataDay[totUFleetLost]));
+$expeditionDataMonth['moyPtGlob']  = (int)round($expeditionDataMonth[totPtGlob]/$expeditionDataMonth[nbTotal]);
+$expeditionDataTotal['moyPtGlob']  = (int)round($expeditionDataTotal[totPtGlob]/$expeditionDataTotal[nbTotal]);
+$expeditionDataDay['moyPtGlob']    = (int)round($expeditionDataDay[totPtGlob]/$expeditionDataDay[nbTotal]);
 
 // Un peu de mise en forme
 foreach ($expeditionDataTotal as &$value){
@@ -42,7 +55,12 @@ foreach ($expeditionDataMonth as &$value){
 	else
 		$value = number_format($value, 0, ',', ' ');	
 }
-
+foreach ($expeditionDataDay as &$value){
+	if (is_float($value))
+		$value = number_format($value, 2, ',', ' ');
+	else
+		$value = number_format($value, 0, ',', ' ');	
+}
 include('header.php');
 
 $template = <<<HERESTAT
@@ -58,41 +76,61 @@ $template = <<<HERESTAT
 			<td style="width: 500px;"></td>
 			<td class="c" style="width: 100px;"><big>Depuis le $firstExp</big></td>
 			<td class="c" style="width: 100px;"><big>Pour le mois $currentMonth</big></td>
+			<td class="c" style="width: 100px;"><big>Pour le $currentDay</big></td>
 		</tr>
 		<tr>
 			<td class="c" style="width: 500px;"><big>Nombre total d'eXpedition :</big></td>
 			<td class="c" style="width: 100px;"><big>$expeditionDataTotal[nbTotal]</big></td>
 			<td class="c" style="width: 100px;"><big>$expeditionDataMonth[nbTotal]</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataDay[nbTotal]</big></td>
+		</tr>
+		<tr>
+			<td class="c" style="width: 500px;"><big>Nombre de points total acquis :</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataTotal[totPtGlob]</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataMonth[totPtGlob]</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataDay[totPtGlob]</big></td>
+		</tr>
+		<tr>
+			<td class="c" style="width: 500px;"><big>Moyenne de points par eXpedition :</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataTotal[moyPtGlob]</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataMonth[moyPtGlob]</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataDay[moyPtGlob]</big></td>
 		</tr>
 		<tr>
 			<td class="c" style="width: 500px;"><big>Nombre d'eXpeditions ayant ramené des ressources :</big></td>
 			<td class="c" style="width: 100px;"><big>$expeditionDataTotal[nbRess] ($expeditionDataTotal[prcRess] %)</big></td>
 			<td class="c" style="width: 100px;"><big>$expeditionDataMonth[nbRess] ($expeditionDataMonth[prcRess] %)</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataDay[nbRess] ($expeditionDataDay[prcRess] %)</big></td>
 		</tr>
 		<tr>
 			<td class="c" style="width: 500px;"><big>Nombre d'eXpeditions ayant ramené des vaisseaux :</big></td>
 			<td class="c" style="width: 100px;"><big>$expeditionDataTotal[nbFleet] ($expeditionDataTotal[prcFleet] %)</big></td>
 			<td class="c" style="width: 100px;"><big>$expeditionDataMonth[nbFleet] ($expeditionDataMonth[prcFleet] %)</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataDay[nbFleet] ($expeditionDataDay[prcFleet] %)</big></td>
 		</tr>
 		<tr>
 			<td class="c" style="width: 500px;"><big>Nombre d'eXpeditions ayant ramené un marchand :</big></td>
 			<td class="c" style="width: 100px;"><big>$expeditionDataTotal[nbMerch] ($expeditionDataTotal[prcMerch] %)</big></td>
 			<td class="c" style="width: 100px;"><big>$expeditionDataMonth[nbMerch] ($expeditionDataMonth[prcMerch] %)</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataDay[nbMerch] ($expeditionDataDay[prcMerch] %)</big></td>
 		</tr>
 		<tr>
 			<td class="c" style="width: 500px;"><big>Nombre d'eXpeditions ayant ramené un objet :</big></td>
 			<td class="c" style="width: 100px;"><big>$expeditionDataTotal[nbItems] ($expeditionDataTotal[prcItems] %)</big></td>
 			<td class="c" style="width: 100px;"><big>$expeditionDataMonth[nbItems] ($expeditionDataMonth[prcItems] %)</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataDay[nbItems] ($expeditionDataDay[prcItems] %)</big></td>
 		</tr>				
 		<tr>
 			<td class="c" style="width: 500px;"><big>Nombre d'eXpeditions n'ayant rien ramené :</big></td>
 			<td class="c" style="width: 100px;"><big>$expeditionDataTotal[nbNul] ($expeditionDataTotal[prcNul] %)</big></td>
 			<td class="c" style="width: 100px;"><big>$expeditionDataMonth[nbNul] ($expeditionDataMonth[prcNul] %)</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataDay[nbNul] ($expeditionDataDay[prcNul] %)</big></td>
 		</tr>
 		<tr>
 			<td class="c" style="width: 500px;"><big>Nombre d'eXpeditions ayant subit une attaque :</big></td>
-			<td class="c" style="width: 100px;"><big>$expeditionDataTotal[nbAttacks] ($expeditionDataTotal[prcnbAttacks] %)</big></td>
-			<td class="c" style="width: 100px;"><big>$expeditionDataMonth[nbAttacks] ($expeditionDataMonth[prcnbAttacks] %)</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataTotal[nbAttacks] ($expeditionDataTotal[prcAttacks] %)</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataMonth[nbAttacks] ($expeditionDataMonth[prcAttacks] %)</big></td>
+			<td class="c" style="width: 100px;"><big>$expeditionDataDay[nbAttacks] ($expeditionDataDay[prcAttacks] %)</big></td>
 		</tr>		
 	</tbody>
 </table>
@@ -261,6 +299,20 @@ $template = <<<HERESTAT
 			<td style="width: 50px;"></td>
 			<th style="width: 225px;">Traqueur</th>
 			<th style="width: 125px;">$expeditionDataMonth[sumtra] ($expeditionDataMonth[sumUtra] pts)</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Faucheur</th>
+			<th style="width: 125px;">$expeditionDataTotal[sumfau] ($expeditionDataTotal[sumUfau] pts)</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Faucheur</th>
+			<th style="width: 125px;">$expeditionDataMonth[sumfau] ($expeditionDataMonth[sumUfau] pts)</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Eclaireur</th>
+			<th style="width: 125px;">$expeditionDataTotal[sumecl] ($expeditionDataTotal[sumUecl] pts)</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Eclaireur</th>
+			<th style="width: 125px;">$expeditionDataMonth[sumecl] ($expeditionDataMonth[sumUecl] pts)</th>
 		</tr>
 		<tr>
 			<td class="c" style="width: 225px; font-weight: bold;">Moyenne de vaisseaux par eXp:</td>
@@ -587,6 +639,20 @@ $template = <<<HERESTAT
 			<td style="width: 50px;"></td>
 			<th style="width: 225px;">Traqueur</th>
 			<th style="width: 125px;">$expeditionDataMonth[sumtraLost] ($expeditionDataMonth[sumUtraLost] pts)</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Faucheur</th>
+			<th style="width: 125px;">$expeditionDataTotal[sumfauLost] ($expeditionDataTotal[sumUfauLost] pts)</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Faucheur</th>
+			<th style="width: 125px;">$expeditionDataMonth[sumfauLost] ($expeditionDataMonth[sumUfauLost] pts)</th>
+		</tr>
+		<tr>
+			<th style="width: 225px;">Eclaireur</th>
+			<th style="width: 125px;">$expeditionDataTotal[sumeclLost] ($expeditionDataTotal[sumUeclLost] pts)</th>
+			<td style="width: 50px;"></td>
+			<th style="width: 225px;">Eclaireur</th>
+			<th style="width: 125px;">$expeditionDataMonth[sumeclLost] ($expeditionDataMonth[sumUeclLost] pts)</th>
 		</tr>
 		<tr>
 			<td class="c" style="width: 225px; font-weight: bold;">Moyenne de vaisseaux par eXp:</td>

@@ -1,6 +1,6 @@
 <?php
 
-if (!defined('IN_SPYOGAME')) die("Hacking attempt"); // Pas daccès direct
+if (!defined('IN_SPYOGAME')) die("Hacking attempt"); // Hack Protection
 
 include("expedition_css.php");
 include('header.php');
@@ -163,25 +163,27 @@ $data = formatUserData($data);
         <td class="c" style="width: 200px;">Date</td>
         <td class="c" style="width: 75px;">Position</td>
         <td style="width: 20px;"></td>
-        <td class="c" style="width: 30px;">PT</td>
-        <td class="c" style="width: 30px;">GT</td>
-        <td class="c" style="width: 30px;">CLE</td>
-        <td class="c" style="width: 30px;">CLO</td>
-        <td class="c" style="width: 30px;">CR</td>
-        <td class="c" style="width: 30px;">VB</td>
-        <td class="c" style="width: 30px;">VC</td>
-        <td class="c" style="width: 30px;">REC</td>
-        <td class="c" style="width: 30px;">SE</td>
-        <td class="c" style="width: 30px;">BMB</td>
-        <td class="c" style="width: 30px;">DST</td>
-        <td class="c" style="width: 30px;">TRA</td>
-        <td class="c" style="width: 30px;">Unités</td>
+        <td class="c" style="width: 26px;">PT</td>
+        <td class="c" style="width: 26px;">GT</td>
+        <td class="c" style="width: 26px;">CLE</td>
+        <td class="c" style="width: 26px;">CLO</td>
+        <td class="c" style="width: 26px;">CR</td>
+        <td class="c" style="width: 26px;">VB</td>
+        <td class="c" style="width: 26px;">VC</td>
+        <td class="c" style="width: 26px;">REC</td>
+        <td class="c" style="width: 26px;">SE</td>
+        <td class="c" style="width: 26px;">BMB</td>
+        <td class="c" style="width: 26px;">DST</td>
+        <td class="c" style="width: 26px;">TRA</td>
+        <td class="c" style="width: 26px;">FAU</td>
+        <td class="c" style="width: 26px;">ECL</td>
+        <td class="c" style="width: 26px;">Unités</td>
     </tr>
     </thead>
     <tbody>
     <?php
     if (count($data['Fleet']) != 0) {
-        $keys = array('pt', 'gt', 'cle', 'clo', 'cr', 'vb', 'vc', 'rec', 'se', 'bmb', 'dst', 'tra', 'units');
+        $keys = array('pt', 'gt', 'cle', 'clo', 'cr', 'vb', 'vc', 'rec', 'se', 'bmb', 'dst', 'tra', 'fau', 'ecl', 'units');
         foreach ($data['Fleet'] as $date => $resDate) {
             ?>
             <tr class="total-line">
@@ -218,7 +220,7 @@ $data = formatUserData($data);
                     <?php
                     foreach ($keys as $key) {
                         ?>
-                        <td class='b' align=center style="width: 30px;"><?php echo $detail[$key] ?></td>
+                        <td class='b' align=center style="width: 26px;"><?php echo $detail[$key] ?></td>
                         <?php
                     }
                     ?>
@@ -260,7 +262,7 @@ $data = formatUserData($data);
             <tr class="total-line">
                 <?php if ($typeUser == 0) { ?>
                     <th style="medium-td"></th>
-                    <th style="width: 20px;"></th>
+                    <th style="width: 20px; font-weight: bold;"></th>
                 <?php } ?>
                 <th align=center style="width: 200px;"><?php echo $date ?></th>
                 <th align=center style="width: 75px;"><?php echo (string)$resDate['Total']['count'] ?></th>
@@ -368,25 +370,27 @@ $data = formatUserData($data);
         <td class="c" style="width: 200px;">Date</td>
         <td class="c" style="width: 75px;">Position</td>
         <td style="width: 20px;"></td>
-        <td class="c" style="width: 30px;">PT</td>
-        <td class="c" style="width: 30px;">GT</td>
-        <td class="c" style="width: 30px;">CLE</td>
-        <td class="c" style="width: 30px;">CLO</td>
-        <td class="c" style="width: 30px;">CR</td>
-        <td class="c" style="width: 30px;">VB</td>
-        <td class="c" style="width: 30px;">VC</td>
-        <td class="c" style="width: 30px;">REC</td>
-        <td class="c" style="width: 30px;">SE</td>
-        <td class="c" style="width: 30px;">BMB</td>
-        <td class="c" style="width: 30px;">DST</td>
-        <td class="c" style="width: 30px;">EDLM</td>
-        <td class="c" style="width: 30px;">TRA</td>
+        <td class="c" style="width: 26px;">PT</td>
+        <td class="c" style="width: 26px;">GT</td>
+        <td class="c" style="width: 26px;">CLE</td>
+        <td class="c" style="width: 26px;">CLO</td>
+        <td class="c" style="width: 26px;">CR</td>
+        <td class="c" style="width: 26px;">VB</td>
+        <td class="c" style="width: 26px;">VC</td>
+        <td class="c" style="width: 26px;">REC</td>
+        <td class="c" style="width: 26px;">SE</td>
+        <td class="c" style="width: 26px;">BMB</td>
+        <td class="c" style="width: 26px;">DST</td>
+        <td class="c" style="width: 26px;">EDLM</td>
+        <td class="c" style="width: 26px;">TRA</td>
+        <td class="c" style="width: 26px;">FAU</td>
+        <td class="c" style="width: 26px;">ECL</td>
     </tr>
     </thead>
     <tbody>
     <?php
     if (count($data['Attacks']) != 0) {
-        $keys = array('pt', 'gt', 'cle', 'clo', 'cr', 'vb', 'vc', 'rec', 'se', 'bmb', 'dst', 'edlm', 'tra');
+        $keys = array('pt', 'gt', 'cle', 'clo', 'cr', 'vb', 'vc', 'rec', 'se', 'bmb', 'dst', 'edlm', 'tra', 'fau', 'ecl');
         foreach ($data['Attacks'] as $date => $resDate) {
             ?>
             <tr class="total-line">
@@ -423,7 +427,7 @@ $data = formatUserData($data);
                     <?php
                     foreach ($keys as $key) {
                         ?>
-                        <td class='b' align=center style="width: 30px;"><?php echo $detail[$key] ?></td>
+                        <td class='b' align=center style="width: 26px;"><?php echo $detail[$key] ?></td>
                         <?php
                     }
                     ?>

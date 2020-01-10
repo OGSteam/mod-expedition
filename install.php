@@ -86,6 +86,8 @@ function createTables($db){
 		. " bmb INT NOT NULL, "
 		. " dst INT NOT NULL, "
 		. " tra INT NOT NULL, "
+		. " fau INT NOT NULL, "
+		. " ecl INT NOT NULL, "
 		. " units INT NOT NULL, "
 		. " primary key ( id )"
 		. " )";
@@ -115,6 +117,8 @@ function createTables($db){
         . " dst INT NOT NULL, "
         . " edlm INT NOT NULL,"
         . " tra INT NOT NULL, "
+		. " fau INT NOT NULL, "
+		. " ecl INT NOT NULL, "
         . " primary key ( id )"
         . " )";
     $db->sql_query($query);
