@@ -262,7 +262,7 @@ $data = formatUserData($data);
             <tr class="total-line">
                 <?php if ($typeUser == 0) { ?>
                     <th style="medium-td"></th>
-                    <th style="width: 20px; font-weight: bold;"></th>
+                    <td style="width: 20px; font-weight: bold;"></td>
                 <?php } ?>
                 <th align=center style="width: 200px;"><?php echo $date ?></th>
                 <th align=center style="width: 75px;"><?php echo (string)$resDate['Total']['count'] ?></th>
@@ -442,7 +442,7 @@ $data = formatUserData($data);
 
 
 <script type="text/javascript">
-    $(window).load(function () {
+    $(document).ready(function () {
         $(".result-tab > tbody > tr").not(".total-line").hide();
 
         $(function () {
