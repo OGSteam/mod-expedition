@@ -6,12 +6,17 @@ if (!defined('IN_SPYOGAME')) die("Hacking attempt");
 require_once('functions.php');
 
 if ( isset($pub_subaction) && $pub_subaction=="global" )
+{
 	$user_id = 0;
-else
+	$temp = $db->sql_query("SELECT min(date) FROM ".TABLE_EXPEDITION." WHERE id BETWEEN 1 AND 50");
+	list($minDate) = $db->sql_fetch_row($temp);
+}
+else 
+{
 	$user_id = $user_data['user_id'];
 	$temp = $db->sql_query("SELECT min(date) FROM ".TABLE_EXPEDITION." WHERE user_id = $user_id");
 	list($minDate) = $db->sql_fetch_row($temp);
-
+}
 
 $expeditionDataTotal = readDB($user_id, 0 , time());
 $expeditionDataMonth = readDB($user_id, mktime(0,0,0,date('m'),1,date('Y')), mktime(0,0,0,date('m')+1,1,date('Y')));
