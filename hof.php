@@ -37,7 +37,7 @@ for($i = 0 ; $i < 10 ; $i++)
 		<tr>
 			<td class="c" style="width: 20px;">'.$indice.'</td>
 			<th style="width: 100px;"><big>'.$hofArray['cumul'][$i]['pseudo'].'</big></th>
-			<th style="width: 75px;"><big>'.number_format((int)$hofArray['cumul'][$i]['cumul'], 0, ',', ' ').'</big></th>
+			<th style="width: 75px;"><big>'.number_format($hofArray['cumul'][$i]['cumul'], 0, ',', ' ').'</big></th>
 		</tr>';
 }
 
@@ -78,16 +78,16 @@ for($i = 0 ; $i < 10 ; $i++)
 		<tr>
 			<td class="c" style="width: 20px;">'.$indice.'</td>
 			<th style="width: 100px;"><big>'.$hofArray['cumulRess'][$i]['M']['pseudo'].'</big></th>
-			<th style="width: 75px;"><big>'.number_format((int)$hofArray['cumulRess'][$i]['M']['cumul'], 0, ',', ' ').'</big></th>
+			<th style="width: 75px;"><big>'.number_format($hofArray['cumulRess'][$i]['M']['cumul'], 0, ',', ' ').'</big></th>
 			<td style="width: 20px;"></td>
 			<th style="width: 90px;"><big>'.$hofArray['cumulRess'][$i]['C']['pseudo'].'</big></th>
-			<th style="width: 75px;"><big>'.number_format((int)$hofArray['cumulRess'][$i]['C']['cumul'], 0, ',', ' ').'</big></th>
+			<th style="width: 75px;"><big>'.number_format($hofArray['cumulRess'][$i]['C']['cumul'], 0, ',', ' ').'</big></th>
 			<td style="width: 20px;"></td>
 			<th style="width: 90px;"><big>'.$hofArray['cumulRess'][$i]['D']['pseudo'].'</big></th>
-			<th style="width: 75px;"><big>'.number_format((int)$hofArray['cumulRess'][$i]['D']['cumul'], 0, ',', ' ').'</big></th>
+			<th style="width: 75px;"><big>'.number_format($hofArray['cumulRess'][$i]['D']['cumul'], 0, ',', ' ').'</big></th>
 			<td style="width: 20px;"></td>
 			<th style="width: 90px;"><big>'.$hofArray['cumulRess'][$i]['A']['pseudo'].'</big></th>
-			<th style="width: 75px;"><big>'.number_format((int)$hofArray['cumulRess'][$i]['A']['cumul'], 0, ',', ' ').'</big></th>
+			<th style="width: 75px;"><big>'.number_format($hofArray['cumulRess'][$i]['A']['cumul'], 0, ',', ' ').'</big></th>
 		</tr>';
 }
 
@@ -116,7 +116,7 @@ for($i = 0 ; $i < 10 ; $i++)
 		<tr>
 			<td class="c" style="width: 20px;">'.$indice.'</td>
 			<th style="width: 100px;"><big>'.$hofArray['cumulFleet'][$i]['pseudo'].'</big></th>
-			<th style="width: 75px;"><big>'.number_format((int)$hofArray['cumulFleet'][$i]['cumul'], 0, ',', ' ').'</big></th>
+			<th style="width: 75px;"><big>'.number_format($hofArray['cumulFleet'][$i]['cumul'], 0, ',', ' ').'</big></th>
 		</tr>';
 }
 
@@ -155,16 +155,16 @@ for($i = 0 ; $i < 10 ; $i++)
 		<tr>
 			<td class="c" style="width: 20px;">'.$indice.'</td>
 			<th style="width: 100px;"><big>'.$hofArray['ress'][$i]['M']['pseudo'].'</big></th>
-			<th style="width: 75px;"><big>'.number_format((int)$hofArray['ress'][$i]['M']['quantite'], 0, ',', ' ').'</big></th>
+			<th style="width: 75px;"><big>'.number_format($hofArray['ress'][$i]['M']['quantite'], 0, ',', ' ').'</big></th>
 			<td style="width: 20px;"></td>
 			<th style="width: 90px;"><big>'.$hofArray['ress'][$i]['C']['pseudo'].'</big></th>
-			<th style="width: 75px;"><big>'.number_format((int)$hofArray['ress'][$i]['C']['quantite'], 0, ',', ' ').'</big></th>
+			<th style="width: 75px;"><big>'.number_format($hofArray['ress'][$i]['C']['quantite'], 0, ',', ' ').'</big></th>
 			<td style="width: 20px;"></td>
 			<th style="width: 90px;"><big>'.$hofArray['ress'][$i]['D']['pseudo'].'</big></th>
-			<th style="width: 75px;"><big>'.number_format((int)$hofArray['ress'][$i]['D']['quantite'], 0, ',', ' ').'</big></th>
+			<th style="width: 75px;"><big>'.number_format($hofArray['ress'][$i]['D']['quantite'], 0, ',', ' ').'</big></th>
 			<td style="width: 20px;"></td>
 			<th style="width: 90px;"><big>'.$hofArray['ress'][$i]['A']['pseudo'].'</big></th>
-			<th style="width: 75px;"><big>'.number_format((int)$hofArray['ress'][$i]['A']['quantite'], 0, ',', ' ').'</big></th>
+			<th style="width: 75px;"><big>'.number_format($hofArray['ress'][$i]['A']['quantite'], 0, ',', ' ').'</big></th>
 		</tr>';
 }
 
@@ -194,7 +194,7 @@ for($i = 0 ; $i < 10 ; $i++)
 		<tr>
 			<td class="c" style="width: 20px;">'.$indice.'</td>
 			<th style="width: 100px;"><big>'.$hofArray['fleet'][$i]['pseudo'].'</big></th>
-			<th style="width: 75px;"><big>'.number_format((int)$hofArray['fleet'][$i]['cumul'], 0, ',', ' ').'</big></th>
+			<th style="width: 75px;"><big>'.number_format($hofArray['fleet'][$i]['cumul'], 0, ',', ' ').'</big></th>
 		</tr>';
 }
 
