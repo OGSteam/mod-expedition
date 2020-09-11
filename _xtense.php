@@ -71,7 +71,7 @@ function eXpedition_analysis($uid, $galaxy, $system, $timestamp, $content)
 	global $db;
 	// REGEX
  	$regexFleet = "/Votre\sflotte\ss\`est\sagrandie\,\svoici\sles\snouveaux\svaisseaux\squi\ss\`y\ssont\sjoints\s\:(.+\d)/";
- 	$regexRess  = "/L`attaquant\sobtient\s(\S+)\s[\(\AM\)]*\s?([\d+\.+]*)/";
+ 	$regexRess  = "/L\`attaquant\sobtient\s(\S+)\s[(AM)]*\s?([\d+\.+]*)/";
  	$regexMerch = ["/liste\sde\sclients\sprivilégiés/", "/dans\svotre\sempire\sun\sreprésentant\schargé\sde\sressources\sà\séchanger/"];
 	$regexAttack = ["/Moa Tikarr/",
                     "/expédition a fait une rencontre fort peu agréable avec des pirates/",
