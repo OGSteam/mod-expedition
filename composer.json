@@ -1,0 +1,39 @@
+{
+    "name": "ogsteam/mod-expedition",
+    "description": "OGSpy module that helps you to manage Expeditions",
+    "type": "ogspy-mod",
+    "keywords": [
+        "ogspy"
+    ],
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "DarkNoon",
+            "email": "darknoon@darkcity.fr",
+            "homepage": "https://github.com/darknoon29",
+            "role": "Lead Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.0",
+        "ogsteam/ogspy": ">=3.3.6"
+    },
+    "extra": {
+        "install_script": "install.php",
+        "update_script": "update.php",
+        "uninstall_script": "uninstall.php",
+        "mod_title": "Expeditions",
+        "menu_title": "Expeditions",
+        "action_name": "expedition",
+        "folder_name": "expedition",
+        "action_file": "index.php",
+        "active": true,
+        "admin": false
+    },
+    "homepage": "https://github.com/ogsteam/mod-expedition",
+    "support": {
+        "issues": "https://github.com/ogsteam/mod-expedition/issues",
+        "source": "https://github.com/ogsteam/mod-expedition/tree/master",
+        "chat": "https://discord.gg/Azcb67b"
+    }
+}
