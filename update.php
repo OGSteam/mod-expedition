@@ -80,7 +80,7 @@ if($version == "1.1.8" || $version == "1.1.9"){
 	$query = "ALTER TABLE ".TABLE_EXPEDITION_FLEET." ADD fau INT NOT NULL AFTER tra , ADD ecl INT NOT NULL AFTER fau ";
 	$db->sql_query($query);
 }
-	
+
 // Mise à jour de la version du mod et des Callbacks
 $query = "REPLACE INTO " . TABLE_XTENSE_CALLBACKS . " ( `mod_id` , `function` , `type` ) VALUES ( '" . $mod_id . "', 'eXpedition_attack', 'rc')";
 $db->sql_query($query);

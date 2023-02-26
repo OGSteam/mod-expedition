@@ -1,5 +1,5 @@
 <?php
- 
+
 // Hack Protection
 if (!defined('IN_SPYOGAME')) {
     exit('Hacking Attempt!');
@@ -39,8 +39,6 @@ if($db->sql_numrows($result) != 0){
 	if($nresult != 0) {
 		// We remove it
 		$query = 'DELETE FROM '.TABLE_XTENSE_CALLBACKS.' WHERE mod_id = '.$mod_id;
-		$db->sql_query($query);	
+		$db->sql_query($query);
 	}
 }
-
-?>

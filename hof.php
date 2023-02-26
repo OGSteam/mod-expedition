@@ -27,7 +27,7 @@ Classement meilleur cumul (resources + vaisseaux) :
 			<td class="c" style="width: 20px;">#</td>
 			<td class="c" style="width: 100px;"><big>Pseudo</big></td>
 			<td class="c" style="width: 100px;"><big>Points</big></td>
-		</tr>	
+		</tr>
 HEREHOF;
 
 for($i = 0 ; $i < 10 ; $i++)
@@ -107,7 +107,7 @@ Classement total vaisseau :
 			<td class="c" style="width: 20px;">#</td>
 			<td class="c" style="width: 100px;"><big>Pseudo</big></td>
 			<td class="c" style="width: 100px;"><big>Points</big></td>
-		</tr>	
+		</tr>
 HEREHOF;
 for($i = 0 ; $i < 10 ; $i++)
 {
@@ -184,7 +184,7 @@ Classement meilleure eXpedition vaisseau :
 			<td class="c" style="width: 20px;">#</td>
 			<td class="c" style="width: 100px;"><big>Pseudo</big></td>
 			<td class="c" style="width: 100px;"><big>Points</big></td>
-		</tr>	
+		</tr>
 HEREHOF;
 
 for($i = 0 ; $i < 10 ; $i++)

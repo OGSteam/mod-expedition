@@ -3,18 +3,18 @@
 if (!defined('IN_SPYOGAME')) die("Hacking attempt"); // Pas daccès direct
 
 $datePickerFolder = FOLDER_EXP."/datePicker";
- 
+
 
 // Pour le module détail
 if(isset($pub_subaction))
 {
 	if($pub_subaction == 'detailAll')
 	{
-		$typeUser = 0;	
+		$typeUser = 0;
 	}
 	else if($pub_subaction == 'detail')
 	{
- 		$typeUser = $user_data['user_id'];	
+ 		$typeUser = $user_data['user_id'];
 	}
 	else
 	{
@@ -46,7 +46,7 @@ if(!isset($pub_datedebut))
 		}
 		$datedebut =  mktime(0, 0, 0, date('m'), $quinzaine, date('Y')); // début du mois
 	}
-	
+
 	if($pub_subaction == 'detailAll')
 	{
 	    	$datedebut =  0; // depuis toujours
@@ -58,7 +58,7 @@ if(!isset($pub_datedebut))
 else
 {
 	if(preg_match("#(\d{2})-(\d{2})-(\d{4})#", $pub_datedebut, $dat))
-	{	
+	{
 		$pub_datedebut = mktime(0, 0, 0, $dat[2], $dat[1], $dat[3]);
 	}
 	if(!isset($pub_datefin))
@@ -89,10 +89,10 @@ $pageSubHeader = <<<HERESUBHEADER
 <br /><br /><br />
 <script type="text/javascript" src="$datePickerFolder/js.js"></script>
 <link rel="stylesheet" type="text/css" media="screen" href="$datePickerFolder/css.css" />
-	
+
 <span style="font-weight: bold;">
-Voir eXpeditions du 
-<a href="index.php?action=eXpedition&module=$pub_subaction&subaction=$pub_subaction&datedebut=$aujourdhuiMinuit"> jour</a>, 
+Voir eXpeditions du
+<a href="index.php?action=eXpedition&module=$pub_subaction&subaction=$pub_subaction&datedebut=$aujourdhuiMinuit"> jour</a>,
 <a href="index.php?action=eXpedition&module=$pub_subaction&subaction=$pub_subaction&datedebut=$debutDuMois"> mois</a>, de l'
 <a href="index.php?action=eXpedition&module=$pub_subaction&subaction=$pub_subaction&datedebut=$nouvelanMinuit"> année</a>, ou encore
 <a href="index.php?action=eXpedition&module=$pub_subaction&subaction=$pub_subaction&datedebut=0"> depuis toujours !</a>
@@ -100,13 +100,13 @@ Voir eXpeditions du
 <br />
 <br />
 <form name='form' method='get' action='index.php'>
-	ou dans la période allant du 
-	<input type="hidden" name="action" value="eXpedition">  
-	<input type="hidden" name="module" value="$pub_subaction">  
-	<input type="hidden" name="subaction" value="$pub_subaction">  
+	ou dans la période allant du
+	<input type="hidden" name="action" value="eXpedition">
+	<input type="hidden" name="module" value="$pub_subaction">
+	<input type="hidden" name="subaction" value="$pub_subaction">
 	<input type="text" name="datedebut">
 	<input type=button value="Calendrier" onclick="displayDatePicker('datedebut', false, 'dmy', '-');">
- au 
+ au
 	<input type="text" name="datefin">
 	<input type=button value="Calendrier" onclick="displayDatePicker('datefin', false, 'dmy', '-');">
 	<input value='Valider' type='submit'>

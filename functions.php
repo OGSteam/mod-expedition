@@ -26,7 +26,7 @@ function readDB($uid = 0, $dateB = 0, $dateE = 0)
     global $db;
 
     // Nombre d'expéditions par type
-    $query = "SELECT count(*) as nb, type 
+    $query = "SELECT count(*) as nb, type
               FROM " . TABLE_EXPEDITION . "
               WHERE ";
     if ($uid != 0)
@@ -72,7 +72,7 @@ function readDB($uid = 0, $dateB = 0, $dateE = 0)
     // Nombre de ressources récoltées
     $query = "SELECT sum(metal), sum(cristal), sum(deuterium), sum(antimatiere)
              FROM " . TABLE_EXPEDITION . " AS exp
-                INNER JOIN " . TABLE_EXPEDITION_RESS . " AS expRess ON exp.id = expRess.id_eXpedition 
+                INNER JOIN " . TABLE_EXPEDITION_RESS . " AS expRess ON exp.id = expRess.id_eXpedition
              WHERE ";
     if ($uid != 0)
         $query .= "user_id = $uid AND ";
@@ -109,7 +109,7 @@ function readDB($uid = 0, $dateB = 0, $dateE = 0)
 
     // Nombre de marchands Kidnappés
     $query = "SELECT count(*)
-           FROM " . TABLE_EXPEDITION . " AS exp 
+           FROM " . TABLE_EXPEDITION . " AS exp
            INNER JOIN " . TABLE_EXPEDITION_MERCH . " AS expMerch
                 ON exp.id = expMerch.id_eXpedition
            WHERE ";
@@ -151,11 +151,11 @@ function readDB($uid = 0, $dateB = 0, $dateE = 0)
     $query = "SELECT expItems.type, expItems.niveau, count(*)
                FROM " . TABLE_EXPEDITION . " AS exp
                 INNER JOIN " . TABLE_EXPEDITION_ITEMS . " expItems
-                    ON exp.id = expItems.id_eXpedition 
+                    ON exp.id = expItems.id_eXpedition
                 WHERE ";
     if ($uid != 0)
         $query .= "user_id = $uid AND ";
-    $query .= "date BETWEEN $dateB AND $dateE 
+    $query .= "date BETWEEN $dateB AND $dateE
                 GROUP BY expItems.type, niveau";
     $result = $db->sql_query($query);
 
@@ -189,12 +189,12 @@ function readDB($uid = 0, $dateB = 0, $dateE = 0)
     $expeditionData['totFleet'] = $expeditionData['sumpt'] + $expeditionData['sumgt'] + $expeditionData['sumcle']
         + $expeditionData['sumclo'] + $expeditionData['sumcr'] + $expeditionData['sumvb'] +
         $expeditionData['sumvc'] + $expeditionData['sumrec'] + $expeditionData['sumse'] +
-        $expeditionData['sumbmb'] + $expeditionData['sumdst'] + $expeditionData['sumtra'] + 
+        $expeditionData['sumbmb'] + $expeditionData['sumdst'] + $expeditionData['sumtra'] +
         $expeditionData['sumfau'] + $expeditionData['sumecl'];
     $expeditionData['totUFleet'] = $expeditionData['sumpt'] * 4 + $expeditionData['sumgt'] * 12 + $expeditionData['sumcle'] * 4
         + $expeditionData['sumclo'] * 10 + $expeditionData['sumcr'] * 29 + $expeditionData['sumvb'] * 60 +
         $expeditionData['sumvc'] * 40 + $expeditionData['sumrec'] * 18 + $expeditionData['sumse'] +
-        $expeditionData['sumbmb'] * 90 + $expeditionData['sumdst'] * 125 + $expeditionData['sumtra'] * 85 + 
+        $expeditionData['sumbmb'] * 90 + $expeditionData['sumdst'] * 125 + $expeditionData['sumtra'] * 85 +
         $expeditionData['sumfau'] * 160 + $expeditionData['sumecl'] * 31;
 
     $expeditionData['totFleetLost'] = $expeditionData['sumptLost'] + $expeditionData['sumgtLost'] + $expeditionData['sumcleLost']

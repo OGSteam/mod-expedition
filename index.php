@@ -13,7 +13,6 @@ define("TABLE_EXPEDITION_NUL", $table_prefix."eXpedition_nul"); 		// 0 - Nul
 define("TABLE_EXPEDITION_RESS", $table_prefix."eXpedition_ress"); 		// 1 - Ressources
 define("TABLE_EXPEDITION_FLEET", $table_prefix."eXpedition_fleet"); 	// 2 - Vaisseaux
 define("TABLE_EXPEDITION_MERCH", $table_prefix."eXpedition_merch"); 	// 3 - Marchand
-define("TABLE_EXPEDITION_MERCH", $table_prefix."eXpedition_merch"); 	// 3 - Marchand
 define("TABLE_EXPEDITION_ATTACKS", $table_prefix."eXpedition_attacks");	// 4 - Attaques
 define("TABLE_EXPEDITION_ITEMS", $table_prefix."eXpedition_items");		// 5 - Items
 
