@@ -73,7 +73,7 @@ $query = "CREATE TABLE IF NOT EXISTS ".TABLE_EXPEDITION_ATTACKS." ("
     $db->sql_query($query);
 
 // Mise à jour depuis les versions 1.1.8 et 1.1.9
-if($version == "1.1.8" || $version == "1.1.9"){
+if ($version == "1.1.8" || $version == "1.1.9"){
 	$query = "ALTER TABLE ".TABLE_EXPEDITION_ATTACKS." ADD fau INT NOT NULL , ADD ecl INT NOT NULL ";
 	$db->sql_query($query);
 
@@ -85,7 +85,4 @@ if($version == "1.1.8" || $version == "1.1.9"){
 $query = "REPLACE INTO " . TABLE_XTENSE_CALLBACKS . " ( `mod_id` , `function` , `type` ) VALUES ( '" . $mod_id . "', 'eXpedition_attack', 'rc')";
 $db->sql_query($query);
 
-
 update_mod($mod_folder, $mod_name);
-
-?>

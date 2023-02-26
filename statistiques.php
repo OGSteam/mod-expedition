@@ -57,7 +57,6 @@ if ($expeditionDataDay['nbTotal'] != 0) {
     $expeditionDataDay['moyPtGlob']  = 0;
 }
 
-$console->log($expeditionDataTotal);
 // Un peu de mise en forme
 foreach ($expeditionDataTotal as $value) {
     if (!empty($value)) {
